@@ -8,6 +8,8 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
+import Image, { StaticImageData } from 'next/image';
+
 
 type DropDownContextType = {
   registerItem: (ref: React.RefObject<HTMLButtonElement>) => void;
@@ -53,7 +55,7 @@ export const DropDownItem = ({
         <i className={clsx(buttonIconClassNamePrefix)} />
       )}
       <button
-        className={clsx(className, 'flex space-x-1.5 justify-start items-center w-full hover:bg-[#161616] rounded p-1 mt-0')}
+        className={clsx(className, 'flex space-x-1.5 justify-start items-center w-full hover:bg-[#161616] rounded py-1.5 px-3 mt-0')}
         onClick={onClick}
         ref={ref}
         title={title}
@@ -132,7 +134,7 @@ const DropDownItems = ({
   return (
     <DropDownContext.Provider value={contextValue}>
       <div
-        className="dropdown-container fixed items-start flex flex-col space-y-1 bg-[#141414] z-50 w-48 border border-zinc-900 p-3"
+        className="dropdown-container fixed items-start flex flex-col space-y-1 bg-[#141414] z-50 w-48 border border-zinc-900 "
         ref={dropDownRef}
         onKeyDown={handleKeyDown}
       >
@@ -151,7 +153,9 @@ const DropDown = ({
   children,
   stopCloseOnClickSelf,
   direction = 'down',
+  image,
 }: {
+  image?: StaticImageData;
   text?: string;
   disabled?: boolean;
   buttonClassName: string;
@@ -254,6 +258,18 @@ const DropDown = ({
       >
         {buttonIconClassNamePrefix && (
           <i className={buttonIconClassNamePrefix} />
+        )}
+        {image && (
+           <>
+             <Image
+               className="pt-0.5"
+               src={image}
+               alt="Color"
+               width={28}
+               height={28}
+             />
+             <i className="icon format xl absolute color-picker"/>
+           </>
         )}
         <span className="pt-0.5">{text}</span>
         {buttonIconClassNamePost && <i className={buttonIconClassNamePost} />}

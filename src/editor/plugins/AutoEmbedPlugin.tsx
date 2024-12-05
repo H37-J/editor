@@ -5,7 +5,7 @@ import {
   URL_MATCHER,
 } from '@lexical/react/LexicalAutoEmbedPlugin';
 import { LexicalEditor } from 'lexical';
-import { INSERT_YOUTUBE_COMMAND } from '@/editor/plugins/YouTubePlugin';
+import { INSERT_YOUTUBE_COMMAND } from '@/editor/plugins/YouTubePlugin/YouTubePlugin';
 import Button from '@/pages/components/input/Button';
 import { useMemo, useState } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
@@ -25,7 +25,7 @@ interface EditorEmbedConfing extends EmbedConfig {
 }
 
 export const YoutubeEmbedConfig: EditorEmbedConfing = {
-  contentName: 'Youtube Video',
+  contentName: '유튜브 비디오',
 
   exampleUrl: 'https://www.youtube.com/watch?v=jNQXAC9IVRw',
 
@@ -211,14 +211,15 @@ const AutoEmbedPlugin = (): JSX.Element => {
     dismissFn: () => void,
   ) => {
     return [
-      new AutoEmbedOption('Dismiss', {
-        onSelect: dismissFn,
-      }),
-      new AutoEmbedOption(`Embed ${activeEmbedConfig.contentName}`, {
+      new AutoEmbedOption(`${activeEmbedConfig.contentName} 넣기`, {
         onSelect: embedFn,
+      }),
+      new AutoEmbedOption('취소', {
+        onSelect: dismissFn,
       }),
     ];
   };
+
 
   return (
     <>

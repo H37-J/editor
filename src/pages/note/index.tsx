@@ -10,7 +10,7 @@ import EditorTheme from '@/editor/theme/EditorTheme';
 import OnChangePlugin from '@/editor/plugins/OnChangePlugin';
 import ToolbarPlugin from '@/editor/plugins/ToolbarPlugin';
 import ImagePlugin from '@/editor/plugins/ImagePlugin/ImagePlugin';
-import YouTubePlugin from '@/editor/plugins/YouTubePlugin';
+import YouTubePlugin from '@/editor/plugins/YouTubePlugin/YouTubePlugin';
 import EditorNode from '@/editor/nodes/EditorNodes';
 import CodeHilightPlugin from '@/editor/plugins/CodePlugin/CodeHilightPlugin';
 import CodeActionMenuPlugin from '@/editor/plugins/CodeActionPlugin/CodeActionMenuPlugin';
@@ -18,12 +18,13 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 import { MarkdownPlugin } from '@/editor/plugins/MakdownPlugin/MarkDownPlugin';
 import AutoEmbedPlugin from '@/editor/plugins/AutoEmbedPlugin';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { blockTypeToBlockName } from '@/editor/utils/constant';
-import { ElementFormatType, NodeKey } from 'lexical';
 import ActionPlugin from '@/editor/plugins/ActionPlugin';
-import StickyPlugin from '@/editor/plugins/StickyPlugin';
+import StickyPlugin from '@/editor/plugins/StickyPlugin/StickyPlugin';
 import LexicalAutoLinkPlugin from '@/editor/plugins/AutoLinkPlugin';
+import DragDropPastePlugin from '@/editor/plugins/DragDropPastePlugin';
+import EmojiPickerPlugin from '@/editor/plugins/EmojiPlugin/EmojiPlugin';
+import ExcalidrawPlugin from '@/editor/plugins/ExcalidrawPlugin/ExcalidrawPlugin';
+import PageBreakPlugin from '@/editor/plugins/PageBreakPlugin/PageBreakPlugin';
 
 const onError = (err: any) => {
   console.error(err);
@@ -83,11 +84,15 @@ const Editor = () => {
           <LexicalAutoLinkPlugin/>
           <CodeHilightPlugin />
           <YouTubePlugin />
+          <DragDropPastePlugin />
           <AutoEmbedPlugin />
           <ListPlugin />
           <CheckListPlugin />
           <MarkdownPlugin />
           <ActionPlugin/>
+          <EmojiPickerPlugin/>
+          <ExcalidrawPlugin/>
+          <PageBreakPlugin/>
           <StickyPlugin/>
           {floatingAnchorElem && (
             <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />

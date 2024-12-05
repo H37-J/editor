@@ -22,7 +22,7 @@ import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister } from '@lexical/utils';
-import { $isImageNode } from '@/editor/nodes/ImageNode';
+import { $isImageNode } from '@/editor/plugins/ImagePlugin/ImageNode';
 import brokenImage from '../../../styles/icons/image-broken.svg';
 import ImageResizer from '@/editor/plugins/ImagePlugin/ImageResizer';
 

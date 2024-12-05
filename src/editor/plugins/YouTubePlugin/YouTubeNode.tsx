@@ -1,7 +1,8 @@
 import {
   DOMConversionMap,
   DOMConversionOutput,
-  DOMExportOutput, EditorConfig,
+  DOMExportOutput,
+  EditorConfig,
   ElementFormatType,
   LexicalEditor,
   NodeKey,
@@ -54,22 +55,24 @@ const YouTubeComponent = ({
   );
 };
 
-const $convertYoutubeElement = (domNode: HTMLElement): null | DOMConversionOutput => {
+const $convertYoutubeElement = (
+  domNode: HTMLElement
+): null | DOMConversionOutput => {
   const videoID = domNode.getAttribute('data-youtube');
   if (videoID) {
     const node = $createYouTubeNode(videoID);
     return { node };
   }
   return null;
-}
+};
 
 export class YouTubeNode extends DecoratorBlockNode {
   __id: string;
-  
+
   static getType(): string {
-    return "youtube";
+    return 'youtube';
   }
-  
+
   static clone(node: YouTubeNode): YouTubeNode {
     return new YouTubeNode(node.__id, node.__format, node.__key);
   }
@@ -78,7 +81,13 @@ export class YouTubeNode extends DecoratorBlockNode {
     super(format, key);
     this.__id = id;
   }
-  
+
+  static importJSON(serializedNode: SerializedYouTubeNode): YouTubeNode {
+    const node = $createYouTubeNode(serializedNode.videoID);
+    node.setFormat(serializedNode.format);
+    return node;
+  }
+
   exportJSON(): SerializedYouTubeNode {
     return {
       ...super.exportJSON(),
@@ -87,7 +96,7 @@ export class YouTubeNode extends DecoratorBlockNode {
       videoID: this.__id,
     };
   }
-  
+
   exportDOM(): DOMExportOutput {
     const element = document.createElement('iframe');
     element.setAttribute('data-lexical-youtube', this.__id);
@@ -95,18 +104,18 @@ export class YouTubeNode extends DecoratorBlockNode {
     element.setAttribute('height', '315');
     element.setAttribute(
       'src',
-      `https://www.youtube-nocookie.com/embed/${this.__id}`,
+      `https://www.youtube-nocookie.com/embed/${this.__id}`
     );
     element.setAttribute('frameborder', '0');
     element.setAttribute(
       'allow',
-      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
     );
     element.setAttribute('allowfullscreen', 'true');
     element.setAttribute('title', 'YouTube video');
-    return {element};
+    return { element };
   }
-  
+
   static importDOM(): DOMConversionMap | null {
     return {
       iframe: (domNode: HTMLElement) => {
@@ -131,7 +140,7 @@ export class YouTubeNode extends DecoratorBlockNode {
 
   getTextContent(
     _includeInert?: boolean | undefined,
-    _includeDirectionless?: false | undefined,
+    _includeDirectionless?: false | undefined
   ): string {
     return `https://www.youtube.com/watch?v=${this.__id}`;
   }
@@ -155,4 +164,4 @@ export class YouTubeNode extends DecoratorBlockNode {
 
 export const $createYouTubeNode = (videoID: string): YouTubeNode => {
   return new YouTubeNode(videoID);
-}
+};

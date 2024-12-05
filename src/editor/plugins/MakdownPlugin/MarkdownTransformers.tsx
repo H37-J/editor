@@ -32,7 +32,7 @@ import {
 } from 'lexical';
 
 
-import {$createImageNode, $isImageNode, ImageNode} from '../../nodes/ImageNode';
+import {$createImageNode, $isImageNode, ImageNode} from '../ImagePlugin/ImageNode';
 
 export const HR: ElementTransformer = {
   dependencies: [HorizontalRuleNode],

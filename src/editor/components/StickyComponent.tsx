@@ -2,7 +2,7 @@ import { $getNodeByKey, LexicalEditor, NodeKey } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { calculateZoomLevel } from '@lexical/utils';
-import { $isStickyNode } from '@/editor/nodes/StickyNode';
+import { $isStickyNode } from '@/editor/plugins/StickyPlugin/StickyNode';
 import { LexicalNestedComposer } from '@lexical/react/LexicalNestedComposer';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';

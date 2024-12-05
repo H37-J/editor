@@ -11,7 +11,7 @@ import {
   $convertToMarkdownString
 } from '@lexical/markdown';
 import { MARKDOWN_TRANSFORMERS } from '@/editor/plugins/MakdownPlugin/MarkdownTransformers';
-import { $createStickyNode } from '@/editor/nodes/StickyNode';
+import { $createStickyNode } from '@/editor/plugins/StickyPlugin/StickyNode';
 const ActionPlugin = ({
 }: {
 }): JSX.Element => {

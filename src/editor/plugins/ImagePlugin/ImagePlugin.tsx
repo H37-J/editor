@@ -1,4 +1,4 @@
-import { $createImageNode, $isImageNode, ImageNode, ImagePayload } from '@/editor/nodes/ImageNode';
+import { $createImageNode, $isImageNode, ImageNode, ImagePayload } from '@/editor/plugins/ImagePlugin/ImageNode';
 import { $wrapNodeInElement, CAN_USE_DOM, mergeRegister } from '@lexical/utils';
 import {
   $createParagraphNode, $createRangeSelection, $getSelection,

@@ -29,7 +29,6 @@ import {
   UNDO_COMMAND,
 } from 'lexical';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
-import Dropdown, { DropDownItem } from '@/pages/components/dropdown/Dropdown';
 import { ImageDialog } from '@/editor/plugins/ImagePlugin/ImagePlugin';
 import BlockFormatComponent from '@/editor/components/BlockFormatComponent';
 import { blockTypeToBlockName, FONT_FAMILY_MAP } from '@/editor/utils/constant';
@@ -47,6 +46,8 @@ import {
 import { sanitizeUrl } from '@/editor/utils/url';
 import { $isDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode';
 import FontDropDown from '@/editor/components/FontComponent';
+import DropdownColorPicker from '@/editor/components/DropdownColorPicker';
+import ColorPickerImage from '@/styles/images/color.png';
 
 const LowPriority = 1;
 
@@ -369,20 +370,31 @@ export default function ToolbarPlugin({
 
   return (
     <div className="toolbar">
+      <div className="hidden">
+        <ImageDialog ref={imageRef} activeEditor={editor} onClose={() => {}} />
+      </div>
+      <InsertComponent activeEditor={activeEditor} imageRef={imageRef} />
       <BlockFormatComponent
         editor={activeEditor}
         disabled={!isEditable}
         blockType={blockType}
       />
-      <div className="hidden">
-        <ImageDialog ref={imageRef} activeEditor={editor} onClose={() => {}} />
-      </div>
-      <InsertComponent imageRef={imageRef} />
       <FontDropDown
         disabled={!isEditable}
         style={'font-family'}
         value={fontFamily}
         editor={activeEditor}
+      />
+      <DropdownColorPicker
+        disabled={!isEditable}
+        buttonClassName="toolbar-item color-picker relative"
+        buttonAriaLabel="Formatting text color"
+        buttonIconClassName="icon font-color"
+        buttonIconClassNamePost="icon format color-picker"
+        color={fontColor}
+        onChange={onFontColorSelect}
+        title="text color"
+        image={ColorPickerImage}
       />
       <button
         disabled={!canUndo || !isEditable}

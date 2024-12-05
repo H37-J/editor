@@ -16,18 +16,18 @@ const TextInput = ({
   type,
 } : Props): JSX.Element => {
   return (
-    <>
-      <label>{label}</label>
+    <div className="Input__wrapper">
+      <label className="Input__label">{label}</label>
       <input
         type={type}
-        className=""
-        value={value}
+        className="Input__input"
         placeholder={placeholder}
+        value={value}
         onChange={(e) => {
           onChange(e.target.value);
         }}
       />
-    </>
+    </div>
   );
 }
 
