@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: my_postgres_container
+    environment:
+      POSTGRES_DB: editor
+      POSTGRES_USER: hjk
+      POSTGRES_PASSWORD: star8903
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./setup.sql:/docker-entrypoint-initdb.d/init.sql
