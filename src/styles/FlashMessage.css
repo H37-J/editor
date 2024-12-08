@@ -1,0 +1,17 @@
+.FlashMessage__overlay {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    pointer-events: none;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+.FlashMessage__alert {
+    background-color: #738eff;
+    color: white;
+    font-size: 12px;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.5rem;
+}
