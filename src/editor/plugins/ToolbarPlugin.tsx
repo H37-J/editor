@@ -125,6 +125,7 @@ export default function ToolbarPlugin({
           const type = parentList
             ? parentList.getListType()
             : element.getListType();
+          if(type === 'check') return
           setBlockType(type);
         } else {
           const type = $isHeadingNode(element)
@@ -329,6 +330,7 @@ export default function ToolbarPlugin({
 
   const onFontColorSelect = useCallback(
     (value: string, skipHistoryStack: boolean) => {
+      setFontColor(value)
       applyStyleText({ color: value }, skipHistoryStack);
     },
     [applyStyleText]
@@ -371,53 +373,20 @@ export default function ToolbarPlugin({
   return (
     <div className="toolbar">
       <div className="hidden">
-        <ImageDialog ref={imageRef} activeEditor={editor} onClose={() => {}} />
+        <ImageDialog ref={imageRef} activeEditor={editor} onClose={() => {
+        }} />
       </div>
       <InsertComponent activeEditor={activeEditor} imageRef={imageRef} />
-      <BlockFormatComponent
-        editor={activeEditor}
-        disabled={!isEditable}
-        blockType={blockType}
-      />
-      <FontDropDown
-        disabled={!isEditable}
-        style={'font-family'}
-        value={fontFamily}
-        editor={activeEditor}
-      />
       <DropdownColorPicker
         disabled={!isEditable}
         buttonClassName="toolbar-item color-picker relative"
         buttonAriaLabel="Formatting text color"
-        buttonIconClassName="icon font-color"
-        buttonIconClassNamePost="icon format color-picker"
+        buttonIconClassNamePost="icon format color-picker bg-red-900"
         color={fontColor}
         onChange={onFontColorSelect}
-        title="text color"
+        title="글 색상"
         image={ColorPickerImage}
       />
-      <button
-        disabled={!canUndo || !isEditable}
-        onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined);
-        }}
-        title="취소"
-        className="toolbar-item spaced"
-        aria-label="Undo"
-      >
-        <i className="format undo" />
-      </button>
-      <button
-        disabled={!canRedo || !isEditable}
-        onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined);
-        }}
-        title="복구"
-        className="toolbar-item"
-        aria-label="Redo"
-      >
-        <i className="format redo" />
-      </button>
       <Divider />
       <button
         onClick={() => {
@@ -490,6 +459,42 @@ export default function ToolbarPlugin({
       >
         <i className="format right-align" />
       </button>
+      <div className="divider" />
+      <button
+        disabled={!canUndo || !isEditable}
+        onClick={() => {
+          editor.dispatchCommand(UNDO_COMMAND, undefined);
+        }}
+        title="취소"
+        className="toolbar-item spaced"
+        aria-label="Undo"
+      >
+        <i className="format undo" />
+      </button>
+      <button
+        disabled={!canRedo || !isEditable}
+        onClick={() => {
+          editor.dispatchCommand(REDO_COMMAND, undefined);
+        }}
+        title="복구"
+        className="toolbar-item"
+        aria-label="Redo"
+      >
+        <i className="format redo" />
+      </button>
+      <div className="divider" />
+      <BlockFormatComponent
+        editor={activeEditor}
+        disabled={!isEditable}
+        blockType={blockType}
+      />
+      <FontDropDown
+        disabled={!isEditable}
+        style={'font-family'}
+        value={fontFamily}
+        editor={activeEditor}
+      />
+      <div className="divider" />
     </div>
   );
 }

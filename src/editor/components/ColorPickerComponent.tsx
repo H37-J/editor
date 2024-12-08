@@ -57,7 +57,7 @@ const basicColors = [
   '#ffffff',
 ];
 
-const WIDTH = 240;
+const WIDTH = 214;
 const HEIGHT = 150;
 
 const hex2rgb = (hex: string): RGB => {

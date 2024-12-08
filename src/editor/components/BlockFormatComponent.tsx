@@ -54,14 +54,6 @@ const BlockFormatComponent = ({
     }
   }
 
-  const formatCheckList = () => {
-    if (blockType !== 'check') {
-      editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
-    } else {
-      formatParagraph();
-    }
-  };
-
   const formatQuote = () => {
     if (blockType !== 'quote') {
       editor.update(() => {
@@ -71,12 +63,12 @@ const BlockFormatComponent = ({
     }
   }
 
-
   return (
     <DropDown
       disabled={disabled}
       buttonClassName="toolbar-item block-controls flex items-center"
       buttonIconClassNamePrefix={"icon format " + blockType}
+      buttonIconClassNamePost="format down"
       text={blockTypeToBlockName[blockType]}>
       <DropDownItem
         className={clsx("toolbar-item spaced space-x-1 text-sm", blockType === 'paragraph'? 'bg-[#161616]' : '')}
@@ -115,22 +107,10 @@ const BlockFormatComponent = ({
         <span>번호 목록</span>
       </DropDownItem>
       <DropDownItem
-        className={clsx("toolbar-item spaced space-x-1 text-sm", blockType === 'check'? 'bg-[#161616]' : '')}
-        onClick={() => formatCheckList()}>
-        <i className="icon format check-list" />
-        <span>체크 리스트</span>
-      </DropDownItem>
-      <DropDownItem
         className={clsx("toolbar-item spaced space-x-1 text-sm", blockType === 'quote'? 'bg-[#161616]' : '')}
         onClick={() => formatQuote()}>
         <i className="icon format quote" />
         <span>인용</span>
-      </DropDownItem>
-      <DropDownItem
-        className={clsx("toolbar-item spaced space-x-1 text-sm", blockType === 'code'? 'bg-[#161616]' : '')}
-        onClick={() => formatCode(editor)}>
-        <i className="icon format code" />
-        <span>코드 블록</span>
       </DropDownItem>
     </DropDown>
   )

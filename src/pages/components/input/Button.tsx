@@ -11,7 +11,7 @@ const Button = ({
   title
 }: {
   'data-test-id'?: string;
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   disabled?: boolean;
   onClick: () => void;

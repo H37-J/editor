@@ -28,6 +28,7 @@ const DropdownColorPicker = ({
   return (
     <DropDown
       {...rest}
+      color={color}
       disabled={disabled}
       stopCloseOnClickSelf={stopCloseOnClickSelf}
     >

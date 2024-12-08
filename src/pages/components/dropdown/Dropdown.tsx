@@ -55,7 +55,7 @@ export const DropDownItem = ({
         <i className={clsx(buttonIconClassNamePrefix)} />
       )}
       <button
-        className={clsx(className, 'flex space-x-1.5 justify-start items-center w-full hover:bg-[#161616] rounded py-1.5 px-3 mt-0')}
+        className={clsx(className, 'flex space-x-2 justify-start items-center w-full hover:bg-[#161616] rounded py-1.5 px-3 mt-0 text-sm')}
         onClick={onClick}
         ref={ref}
         title={title}
@@ -134,7 +134,7 @@ const DropDownItems = ({
   return (
     <DropDownContext.Provider value={contextValue}>
       <div
-        className="dropdown-container fixed items-start flex flex-col space-y-1 bg-[#141414] z-50 w-48 border border-zinc-900 "
+        className="dropdown-container fixed flex flex-col space-y-1 py-3 bg-[#141414] z-50 w-48 border border-zinc-900"
         ref={dropDownRef}
         onKeyDown={handleKeyDown}
       >
@@ -145,6 +145,7 @@ const DropDownItems = ({
 };
 
 const DropDown = ({
+  title,
   text,
   disabled,
   buttonClassName,
@@ -154,7 +155,9 @@ const DropDown = ({
   stopCloseOnClickSelf,
   direction = 'down',
   image,
+  color,
 }: {
+  title?: string;
   image?: StaticImageData;
   text?: string;
   disabled?: boolean;
@@ -165,6 +168,7 @@ const DropDown = ({
   children: ReactNode;
   stopCloseOnClickSelf?: boolean;
   direction?: 'down' | 'up' | 'left' | 'right';
+  color?: string;
 }): JSX.Element => {
   const dropDownRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -245,11 +249,12 @@ const DropDown = ({
     return () => {
       document.removeEventListener('scroll', handleButtonPositionUpdate);
     };
-  }, [buttonRef, dropDownRef, showDropDown]);
+  }, [buttonRef, dropDownRef, showDropDown, color]);
 
   return (
     <>
       <button
+        title={title}
         type="button"
         disabled={disabled}
         className={buttonClassName}
@@ -268,10 +273,10 @@ const DropDown = ({
                width={28}
                height={28}
              />
-             <i className="icon format xl absolute color-picker"/>
+             <i style={{backgroundColor: color}} className={`icon format xl absolute color-picker`}/>
            </>
         )}
-        <span className="pt-0.5">{text}</span>
+        <span className="pt-0.5 text-sm">{text}</span>
         {buttonIconClassNamePost && <i className={buttonIconClassNamePost} />}
       </button>
 

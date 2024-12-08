@@ -25,6 +25,11 @@ import DragDropPastePlugin from '@/editor/plugins/DragDropPastePlugin';
 import EmojiPickerPlugin from '@/editor/plugins/EmojiPlugin/EmojiPlugin';
 import ExcalidrawPlugin from '@/editor/plugins/ExcalidrawPlugin/ExcalidrawPlugin';
 import PageBreakPlugin from '@/editor/plugins/PageBreakPlugin/PageBreakPlugin';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+import TableActionMenuPlugin from '@/editor/plugins/TablePlugin/TableActionMenuPlugin';
+import TableHoverActionsPlugin from '@/editor/plugins/TablePlugin/TableHoverActionsContainer';
+import TableOfContentsPlugin from '@/editor/plugins/TablePlugin/TableContentsPlugin';
+import TableCellResizerPlugin from '@/editor/plugins/TablePlugin/TableCellResizer';
 
 const onError = (err: any) => {
   console.error(err);
@@ -95,8 +100,14 @@ const Editor = () => {
           <PageBreakPlugin/>
           <StickyPlugin/>
           {floatingAnchorElem && (
-            <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
+           <>
+             <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
+             <TableActionMenuPlugin anchorElem={floatingAnchorElem} />
+             <TableHoverActionsPlugin anchorElem={floatingAnchorElem} />
+           </>
           )}
+          <TablePlugin/>
+          <TableCellResizerPlugin />
         </div>
       </div>
     </LexicalComposer>

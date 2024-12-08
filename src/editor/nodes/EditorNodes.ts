@@ -10,6 +10,7 @@ import { YouTubeNode } from '@/editor/plugins/YouTubePlugin/YouTubeNode';
 import { StickyNode } from '@/editor/plugins/StickyPlugin/StickyNode';
 import { ExcaliDrawNode } from '../plugins/ExcalidrawPlugin/ExcaliDrawNode';
 import { PageBreakNode } from '@/editor/plugins/PageBreakPlugin/PageBreakNode';
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
 // @ts-ignore
 const EditorNode: Array<Klass<LexicalNode>> = [
   ImageNode,
@@ -25,6 +26,9 @@ const EditorNode: Array<Klass<LexicalNode>> = [
   AutoLinkNode,
   ExcaliDrawNode,
   PageBreakNode,
+  TableNode,
+  TableCellNode,
+  TableRowNode,
   MarkNode as unknown as Klass<LexicalNode>,
 ]
 

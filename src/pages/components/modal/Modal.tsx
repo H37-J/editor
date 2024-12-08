@@ -65,7 +65,6 @@ const PortalImpl = ({
       }
     };
   }, [closeOnClickOutside, onClose]);
-
   return (
     <div className="flex justify-center items-center  fixed inset-0 bg-black bg-opacity-50">
       <div className="flex items-center justify-center h-full" ref={modalRef}>
@@ -105,6 +104,7 @@ export const useModal = (): [
       return null;
     }
     const { title, content, closeOnClickOutside } = modalContent;
+    console.log(title, content)
     return (
       <Modal
         onClose={onClose}
@@ -116,7 +116,6 @@ export const useModal = (): [
     );
   }, [modalContent, onClose]);
 
-  // 모달 설정 함수
   const showModal = useCallback(
     (
       title: string,
@@ -146,6 +145,7 @@ export const Modal = ({
   onClose: () => void;
   title: string;
 }): JSX.Element => {
+  console.log(children, title)
   return createPortal(
     <PortalImpl
       onClose={onClose}

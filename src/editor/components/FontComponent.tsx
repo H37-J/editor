@@ -33,7 +33,8 @@ const FontDropDown = ({
     <Dropdown
       text={value}
       disabled={disabled}
-      buttonClassName={'toolbar-item min-w-32 ' + style}
+      buttonIconClassNamePost="format down"
+      buttonClassName={'toolbar-item ' + style}
       buttonIconClassNamePrefix={
         style === 'font-family' ? 'icon format font-family' : ''
       }

@@ -60,17 +60,10 @@ const ActionPlugin = ({
     });
   }, [editor]);
 
-  const sticky = () => {
-    editor.update(() => {
-      const root = $getRoot();
-      const stickyNode = $createStickyNode(0, 0);
-      root.append(stickyNode);
-    })
-  }
-
   return (
     <div className="fixed bottom-0 right-0 m-4 space-x-3">
         <button
+          title="공유"
           className="bg-zinc-900 p-3 rounded-xl"
           onClick={() => {
             shareDoc(serializedDocumentFromEditorState(editor.getEditorState())).then(
@@ -80,14 +73,10 @@ const ActionPlugin = ({
           <i className="icon format lg share"/>
         </button>
       <button
+        title="마크다운"
         className="bg-zinc-900 p-3 rounded-xl"
         onClick={handleMarkdownToggle}>
         <i className="icon format lg markdown"/>
-      </button>
-      <button
-        className="bg-zinc-900 p-3 rounded-xl"
-        onClick={sticky}>
-        <i className="icon format lg sticky"/>
       </button>
     </div>
   )
