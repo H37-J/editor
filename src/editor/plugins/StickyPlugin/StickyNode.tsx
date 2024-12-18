@@ -10,7 +10,7 @@ import {
 } from 'lexical';
 import { Suspense } from 'react';
 import { createPortal } from 'react-dom';
-import StickyComponent from '@/editor/components/StickyComponent';
+import StickyComponent from '@/editor/plugins/StickyPlugin/StickyComponent';
 
 
 type StickyNoteColor = 'pink' | 'yellow';

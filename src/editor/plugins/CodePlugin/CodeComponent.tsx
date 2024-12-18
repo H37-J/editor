@@ -1,10 +1,28 @@
 import {
-  $createCodeNode,
-  CODE_LANGUAGE_FRIENDLY_NAME_MAP,
+  $createCodeNode, $isCodeNode,
 } from '@lexical/code';
-import { $getSelection, $isRangeSelection, LexicalEditor } from 'lexical';
+import { $getNodeByKey, $getSelection, $isRangeSelection, LexicalEditor } from 'lexical';
 // @ts-ignore
 import { $setBlocksType } from '@lexical/selection';
+import { useEditorStore } from '@/store/zustand/editorStore';
+
+export const CODE_LANGUAGE_FRIENDLY_NAME_MAP: Record<string, string> = {
+  c: 'C',
+  clike: 'C++',
+  css: 'CSS',
+  cpp: 'HTML',
+  java: 'Java',
+  js: 'JavaScript',
+  markdown: 'Markdown',
+  Plain: 'Plain Text',
+  py: 'Python',
+  rust: 'Rust',
+  sql: 'SQL',
+  typescript: 'TypeScript',
+  xml: 'XML',
+};
+
+
 
 const getCodeLanguageOption = (): [string, string][] => {
   const options: [string, string][] = [];
@@ -32,10 +50,9 @@ export const formatCode = (editor: LexicalEditor) => {
         // @ts-ignore
         selection.insertNodes([codeNode]);
         selection = $getSelection();
-        if (!$isRangeSelection(selection)) {
           selection?.insertRawText(textContent);
-        }
       }
     }
   });
 };
+

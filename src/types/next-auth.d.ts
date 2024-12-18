@@ -15,8 +15,9 @@ declare module "next-auth" {
   }
 
   interface User {
-    id: string;
+    id: number;
     image?: string;
     superAdmin: boolean;
   }
 }
+

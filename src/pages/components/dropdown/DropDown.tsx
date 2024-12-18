@@ -1,4 +1,5 @@
 import React, {
+  MouseEventHandler,
   ReactNode,
   useCallback,
   useEffect,
@@ -9,6 +10,7 @@ import React, {
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import Image, { StaticImageData } from 'next/image';
+import dropDown from '@/pages/components/dropdown/DropDown';
 
 
 type DropDownContextType = {
@@ -18,7 +20,7 @@ type DropDownContextType = {
 
 const DropDownContext = React.createContext<DropDownContextType | null>(null);
 
-const dropDownPadding = 4;
+const dropDownPadding = 6;
 
 export const DropDownItem = ({
   children,
@@ -55,7 +57,7 @@ export const DropDownItem = ({
         <i className={clsx(buttonIconClassNamePrefix)} />
       )}
       <button
-        className={clsx(className, 'flex space-x-2 justify-start items-center w-full hover:bg-[#161616] rounded py-1.5 px-3 mt-0 text-sm')}
+        className={clsx(className, 'flex space-x-2 justify-start items-center w-full hover:bg-[#161616] rounded py-2.5 px-3 mt-0 text-sm')}
         onClick={onClick}
         ref={ref}
         title={title}
@@ -134,7 +136,7 @@ const DropDownItems = ({
   return (
     <DropDownContext.Provider value={contextValue}>
       <div
-        className="dropdown-container fixed flex flex-col space-y-1 py-3 bg-[#141414] z-50 w-48 border border-zinc-900"
+        className="dropdown-container fixed flex flex-col bg-[#141414] z-50 w-48 border border-zinc-900"
         ref={dropDownRef}
         onKeyDown={handleKeyDown}
       >
@@ -152,6 +154,7 @@ const DropDown = ({
   buttonIconClassNamePrefix,
   buttonIconClassNamePost,
   children,
+  textChildren,
   stopCloseOnClickSelf,
   direction = 'down',
   image,
@@ -166,6 +169,7 @@ const DropDown = ({
   buttonIconClassNamePost?: string;
   buttonLabel?: string;
   children: ReactNode;
+  textChildren?: ReactNode;
   stopCloseOnClickSelf?: boolean;
   direction?: 'down' | 'up' | 'left' | 'right';
   color?: string;
@@ -173,7 +177,7 @@ const DropDown = ({
   const dropDownRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [showDropDown, setShowDropDown] = useState(false);
-
+  const [right, setRight] = useState(0);
   const handleClose = () => {
     setShowDropDown(false);
     if (buttonRef.current) {
@@ -182,11 +186,11 @@ const DropDown = ({
   };
 
   useEffect(() => {
+    const button = buttonRef.current;
+    const dropDown = dropDownRef.current;
+    const { top, left, right } = button?.getBoundingClientRect()!;
    if (direction === 'down') {
-     const button = buttonRef.current;
-     const dropDown = dropDownRef.current;
      if (showDropDown && button !== null && dropDown !== null) {
-       const { top, left } = button.getBoundingClientRect();
        dropDown.style.top = `${top + button.offsetHeight + dropDownPadding}px`;
        dropDown.style.left = `${Math.min(
          left,
@@ -194,29 +198,26 @@ const DropDown = ({
        )}px`;
      }
    } else if (direction === 'left') {
-     const button = buttonRef.current;
-     const dropDown = dropDownRef.current;
      if (showDropDown && button !== null && dropDown !== null) {
-       const { top, left,right, bottom } = button.getBoundingClientRect();
        dropDown.style.top = `${top - dropDownPadding}px`;
        dropDown.style.left = `${left - dropDown.offsetWidth - dropDownPadding}px`
+     }
+   } else if (direction === 'right') {
+     if (showDropDown && button !== null && dropDown !== null) {
+       dropDown.style.top = `${top}px`;
+       dropDown.style.left = `${right + 4}px`
      }
    }
   }, [dropDownRef, buttonRef, showDropDown]);
 
   useEffect(() => {
     const button = buttonRef.current;
-
+    const dropDown = dropDownRef.current;
     if (button !== null && showDropDown) {
       const handle = (event: MouseEvent) => {
         const target = event.target;
-        if (stopCloseOnClickSelf) {
-          if (
-            dropDownRef.current &&
-            dropDownRef.current!.contains(target as Node)
-          ) {
-            return;
-          }
+        if (target instanceof HTMLElement && target?.getAttribute('data-direction') === 'right') {
+          return;
         }
         if (!button.contains(target as Node)) {
           setShowDropDown(false);
@@ -227,7 +228,7 @@ const DropDown = ({
         document.removeEventListener('click', handle);
       };
     }
-  }, [dropDownRef, buttonRef, showDropDown, stopCloseOnClickSelf]);
+  }, [buttonRef, dropDownRef, showDropDown]);
 
   useEffect(() => {
     const handleButtonPositionUpdate = () => {
@@ -251,38 +252,59 @@ const DropDown = ({
     };
   }, [buttonRef, dropDownRef, showDropDown, color]);
 
+  const toggle = () => {
+    const arr = document.querySelectorAll('[data-direction="right"][data-open="true"]');
+    [...arr].forEach((item) => {
+      const button = item as HTMLButtonElement;
+      button.click();
+    })
+    setShowDropDown(!showDropDown);
+  }
+
   return (
     <>
       <button
+        id="dropdown"
         title={title}
         type="button"
         disabled={disabled}
-        className={buttonClassName}
-        onClick={() => setShowDropDown(!showDropDown)}
+        className={clsx(buttonClassName, 'dropdown')}
+        onClick={() => {
+          toggle();
+        }}
         ref={buttonRef}
+        data-open={showDropDown}
+        data-direction={direction}
       >
         {buttonIconClassNamePrefix && (
           <i className={buttonIconClassNamePrefix} />
         )}
         {image && (
-           <>
-             <Image
-               className="pt-0.5"
-               src={image}
-               alt="Color"
-               width={28}
-               height={28}
-             />
-             <i style={{backgroundColor: color}} className={`icon format xl absolute color-picker`}/>
-           </>
+          <>
+            <Image
+              className="pt-0.5"
+              src={image}
+              alt="Color"
+              width={28}
+              height={28}
+            />
+            <i
+              style={{ backgroundColor: color }}
+              className={`icon format xl absolute color-picker`}
+            />
+          </>
         )}
-        <span className="pt-0.5 text-sm">{text}</span>
+        {textChildren ? (
+          textChildren
+        ) : (
+          <span data-direction={direction} className="dropdown pt-0.5 text-sm">{text}</span>
+        )}
         {buttonIconClassNamePost && <i className={buttonIconClassNamePost} />}
       </button>
 
       {showDropDown &&
         createPortal(
-          <DropDownItems dropDownRef={dropDownRef} onClose={handleClose}>
+          <DropDownItems dropDownRef={dropDownRef} onClose={() => handleClose()}>
             {children}
           </DropDownItems>,
           document.body

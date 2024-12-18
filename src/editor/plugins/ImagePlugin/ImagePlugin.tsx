@@ -22,11 +22,9 @@ export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> = createCo
 
 export const ImageDialog = React.forwardRef((
   {
-    activeEditor,
-    onClose,
+    editor,
   }: {
-    activeEditor: LexicalEditor;
-    onClose: () => void;
+    editor: LexicalEditor;
   },
   ref: React.ForwardedRef<HTMLInputElement>,
 ) => {
@@ -49,8 +47,7 @@ export const ImageDialog = React.forwardRef((
   };
 
   const onClick = (payload: InsertImagePayload) => {
-    activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
-    onClose();
+    editor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
   };
 
   return (

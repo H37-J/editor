@@ -1,4 +1,4 @@
-import { $getNodeByKey, LexicalEditor, NodeKey } from 'lexical';
+import { $getNodeByKey, $getRoot, $setSelection, LexicalEditor, NodeKey } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { calculateZoomLevel } from '@lexical/utils';
@@ -8,6 +8,7 @@ import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import StickyTheme from '@/editor/theme/StickyTheme';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { getRootElements } from '@excalidraw/excalidraw/types/frame';
 
 type Positioning = {
   isDragging: boolean;

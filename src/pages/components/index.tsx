@@ -1,18 +1,32 @@
-import { useFlashMessageContext } from '@/context/FleshMessageContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const Page = () => {
-  const showFlashMessage = useFlashMessageContext();
+const Compo = () => {
+  const [count, setCount] = useState(0);
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
-    showFlashMessage('test', 1000);
-  }, []);
+  }, [count])
 
   return (
     <>
-      <div>test</div>
+      <div onClick={() => setCount(count + 1)}>+1</div>
+      <div onClick={() => setCount(count - 1)}>-1</div>
+      <div onClick={() => setShow(!show)}>보기</div>
+      <div>Count: {count}</div>
+      {show && <div>show: show</div>}
     </>
-  )
-}
+  );
+};
+
+const Page = () => {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <Compo />
+      <Compo />
+    </>
+  );
+};
 
 export default Page;

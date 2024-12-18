@@ -8,7 +8,7 @@ import { type Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import Layout from './layout';
 import { FlassMessageContext } from '@/context/FleshMessageContext';
-
+import api from '@/utils/api';
 const App: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps},
@@ -24,4 +24,4 @@ const App: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default App;
+export default api.withTRPC(App);

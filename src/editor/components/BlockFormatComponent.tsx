@@ -8,7 +8,7 @@ import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERE
 import { $setBlocksType } from '@lexical/selection';
 import { formatCode } from '@/editor/plugins/CodePlugin/CodeComponent';
 import clsx from 'clsx';
-import DropDown, { DropDownItem } from '@/pages/components/dropdown/Dropdown';
+import DropDown, { DropDownItem } from '@/pages/components/dropdown/DropDown';
 
 const BlockFormatComponent = ({
   editor,

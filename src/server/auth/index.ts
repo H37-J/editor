@@ -6,7 +6,7 @@ import merge from 'lodash/merge';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { type GetServerSidePropsContext } from 'next';
 import type { AuthOptions, Awaitable, NextAuthOptions } from 'next-auth';
-import { getServerSession, type Session } from 'next-auth';
+import { getServerSession } from 'next-auth';
 import type { Adapter, AdapterUser } from 'next-auth/adapters';
 
 import prisma from '@/server/prisma';
@@ -27,7 +27,7 @@ const overridePrisma = <T>(fn: (user: T) => Awaitable<AdapterUser>) => {
 const prismaAdapter = PrismaAdapter(prisma);
 prismaAdapter.createUser = overridePrisma<Omit<AdapterUser, "id">>(prismaAdapter.createUser);
 
-const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
+export const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
   adapter: prismaAdapter,
   callbacks: {
     async session({ session, user } ) {
@@ -36,7 +36,7 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
         orderBy: { expires: Prisma.SortOrder.desc },
       });
       session.accessToken = data.sessionToken;
-      session.user.id = user.id;
+      session.user.id = Number(user.id);
       session.user.superAdmin = user.superAdmin;
       return session;
     },

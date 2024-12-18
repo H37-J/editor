@@ -1,5 +1,5 @@
 import * as React from 'react';
-import DropDown from '@/pages/components/dropdown/Dropdown';
+import DropDown from '@/pages/components/dropdown/DropDown';
 import ColorPicker from '@/editor/components/ColorPickerComponent';
 import { StaticImageData } from 'next/image';
 

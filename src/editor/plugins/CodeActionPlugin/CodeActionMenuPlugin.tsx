@@ -1,17 +1,17 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDebounce } from '@/editor/utils/utils';
 import {
   $isCodeNode,
   CodeNode,
   getLanguageFriendlyName,
-  normalizeCodeLang,
 } from '@lexical/code';
-import { $getNearestNodeFromDOMNode } from 'lexical';
+import { $getNearestNodeFromDOMNode, $getNodeByKey, LexicalEditor } from 'lexical';
 import CopyButton from '@/editor/plugins/CodeActionPlugin/CopyButton';
 import { createPortal } from 'react-dom';
-import { blockTypeToBlockName } from '@/editor/utils/constant';
-import Dropdown, { DropDownItem } from '@/pages/components/dropdown/Dropdown';
+import Dropdown, { DropDownItem } from '@/pages/components/dropdown/DropDown';
+import { CODE_LANGUAGE_OPTIONS } from '@/editor/plugins/CodePlugin/CodeComponent';
+import { useEditorStore } from '@/store/zustand/editorStore';
 
 const CODE_PADDING = 8;
 
@@ -122,8 +122,20 @@ const CodeActionMenuContainer = ({
     );
   }, [editor]);
 
-  const normalizedLang = normalizeCodeLang(lang);
-  const codeFriendlyName = getLanguageFriendlyName(lang);
+  const onCodeLanguageSelect = (editor: LexicalEditor, language: string) => {
+    editor.update(() => {
+      if (useEditorStore.getState().selectedElementKey !== null) {
+        const node = $getNodeByKey(useEditorStore.getState().selectedElementKey!);
+        if ($isCodeNode(node)) {
+          node.setLanguage(language);
+        }
+      }
+    })
+  }
+
+  const codeFriendlyName = useMemo(() => {
+    return getLanguageFriendlyName(lang);
+  }, [lang])
 
   return (
     <>
@@ -132,12 +144,19 @@ const CodeActionMenuContainer = ({
           <Dropdown
             buttonClassName="code-highlight-language"
             direction="left"
-            text={codeFriendlyName}>
-            <DropDownItem
-              className="toolbar-item spaced space-x-1 text-sm flex"
-              onClick={() => {}}>
-              <span>{codeFriendlyName}</span>
-            </DropDownItem>
+            text={codeFriendlyName}
+            textChildren={<span className="text">{codeFriendlyName}</span>}
+          >
+            {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
+              return (
+                <DropDownItem
+                  className="toolbar-item spaced space-x-1 text-sm flex"
+                  onClick={() => onCodeLanguageSelect(editor, value)}
+                >
+                  <span>{name}</span>
+                </DropDownItem>
+              )
+            })}
           </Dropdown>
           <CopyButton editor={editor} getCodeDOMNode={getCodeDOMNode} />
         </div>
@@ -155,9 +174,7 @@ const getMouseInfo = (
   const target = event.target;
 
   if (target && target instanceof HTMLElement) {
-    const codeDOMNode = target.closest<HTMLElement>(
-      'code.editor-code'
-    );
+    const codeDOMNode = target.closest<HTMLElement>('code.editor-code');
     const isOutside = !(
       codeDOMNode ||
       target.closest<HTMLElement>('div.code-action-menu-container') ||

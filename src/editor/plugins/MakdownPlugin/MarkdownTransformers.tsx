@@ -7,8 +7,6 @@
  */
 
 import {
-  $convertFromMarkdownString,
-  $convertToMarkdownString,
   CHECK_LIST,
   ELEMENT_TRANSFORMERS,
   ElementTransformer,
@@ -25,9 +23,6 @@ import {
 } from '@lexical/react/LexicalHorizontalRuleNode';
 
 import {
-  $createTextNode,
-  $isParagraphNode,
-  $isTextNode,
   LexicalNode,
 } from 'lexical';
 

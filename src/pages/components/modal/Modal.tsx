@@ -1,13 +1,18 @@
-import type {
-  ReactNode} from 'react';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { ReactNode, useEffect } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { AiModel, useAiStore } from '@/store/zustand/aiStore';
+import { ImSpinner2 } from 'react-icons/im';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { insertText } from '@/editor/utils/editor';
+import { useFlashMessageContext } from '@/context/FleshMessageContext';
+import { post } from '@/utils/api-utils';
+import { useEditorStore } from '@/store/zustand/editorStore';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { formatCode } from '@/editor/plugins/CodePlugin/CodeComponent';
+
+
 const PortalImpl = ({
   onClose,
   children,
@@ -47,7 +52,6 @@ const PortalImpl = ({
       }
     };
 
-
     const modalElement = modalRef.current;
     if (modalElement !== null) {
       modalOverlayElement = modalElement.parentElement;
@@ -65,23 +69,190 @@ const PortalImpl = ({
       }
     };
   }, [closeOnClickOutside, onClose]);
+
   return (
-    <div className="flex justify-center items-center  fixed inset-0 bg-black bg-opacity-50">
-      <div className="flex items-center justify-center h-full" ref={modalRef}>
-        <div className="bg-white p-6 rounded shadow-lg">
-          <h2 className="text-lg font-bold text-black">{title}</h2>
-          <p className="text-black">{children}</p>
-          <div className="mt-4">
+    <div className="flex justify-items-center items-center fixed inset-0 overflow-auto">
+      {children}
+    </div>
+  );
+};
+
+export const CodingAiModal = ({
+  title,
+  onClose,
+}: {
+  title: string;
+  onClose: () => void;
+}) => {
+  const [editor] = useLexicalComposerContext();
+  const [prompt, setPrompt] = useState('');
+  const result = useAiStore.getState().result;
+  const loading = useAiStore.use.loading();
+  const showFlashMessage = useFlashMessageContext();
+  const ref = useRef<HTMLParagraphElement>(null);
+  const str = result?.text.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+  const create = async () => {
+    const data = await post<AiModel>('/api/code', {
+      prompt,
+    });
+    useAiStore.getState().setResult(data);
+    useAiStore.getState().setLoading(false);
+  };
+  const copy = async () => {
+    await navigator.clipboard.writeText(result?.text!);
+    showFlashMessage('클립보드에 복사 되었습니다.', 2000);
+  };
+
+  const insert = async () => {
+    insertText(editor, result?.text!);
+    formatCode(editor);
+
+  }
+
+  useEffect(() => {}, []);
+
+  return (
+    <>
+      <div className="flex flex-col md:w-[550px] w-96 bg-[#141414] border rounded border-neutral-800 shadow-xl absolute top-14 right-4">
+        <div className="p-2 px-5 space-y-2">
+          <div className="flex justify-between">
+            <div className="flex items-center space-x-0.5">
+              <i className="icon format ai-start" />
+              <span className="text-lg ai-text">AI 편집</span>
+            </div>
+            <button className="text-sm" onClick={() => onClose()}>
+              <i className="icon format cancel hover:bg-gray-400" />
+            </button>
+          </div>
+          <div className="text-sm pl-0.5">{title}</div>
+        </div>
+        <div className="border-t border-neutral-800"></div>
+        <textarea
+          placeholder="ex) 자바스크립트로 피보나치 수열 코드 작성 해줘"
+          autoFocus={true}
+          className="p-3 pb-0 px-6 bg-[#141414] outline-0 resize-none"
+          rows={1}
+          onChange={(e) => setPrompt(e.target.value)}
+        />
+        <div className="p-3 px-5">
+          {loading ? (
+           <div className="flex justify-center">
+             <ImSpinner2 className="animate-spin" />
+           </div>
+          ) : (
+            result && (
+              // <code ref={ref} className="text-sm text-gray-300 leading-6"></code>
+              <SyntaxHighlighter language="javascript" style={atomDark}>
+                {result?.text!}
+              </SyntaxHighlighter>
+            )
+          )}
+          <div className="flex justify-end space-x-1.5 pt-1.5 mt-4 mb-2">
             <button
-              id="closeModal"
-              className="bg-red-500 text-white px-4 py-2 rounded"
+              disabled={loading}
+              onClick={() => create()}
+              className="p-2 px-12 rounded bg-teal-500 sm hover:bg-teal-600"
             >
-              닫기
+              생성
+            </button>
+            {!loading && result && (
+              <>
+                <button
+                  disabled={loading}
+                  onClick={() => insert()}
+                  className="p-2 px-12 rounded bg-sky-500 sm hover:bg-sky-600"
+                >
+                  추가
+                </button>
+                <button
+                  disabled={loading}
+                  onClick={() => copy()}
+                  className="p-2 px-12 rounded bg-indigo-500 sm hover:bg-indigo-600"
+                >
+                  복사
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export const AiModal = ({
+  title,
+  onClose,
+}: {
+  title: string;
+  onClose: () => void;
+}) => {
+  const [editor] = useLexicalComposerContext();
+  const result = useAiStore.use.result();
+  const loading = useAiStore.use.loading();
+  const showFlashMessage = useFlashMessageContext();
+  const ref = useRef<HTMLParagraphElement>(null);
+  const str = result?.text
+    .replace(/(?:\r\n|\r|\n)/g, '<br/>')
+    .replaceAll('*', '');
+
+  const edit = () => {
+    insertText(editor, result?.text!.replaceAll('*', '')!);
+    onClose();
+  };
+
+  const copy = async () => {
+    await navigator.clipboard.writeText(result?.text!.replaceAll('*', '')!);
+    showFlashMessage('클립보드에 복사 되었습니다.', 2000);
+  };
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.innerHTML = str!;
+    }
+  }, [str]);
+
+  return (
+    <>
+      <div className="flex flex-col md:w-[550px] w-96 bg-[#141414] border rounded border-neutral-800 shadow-xl absolute top-14 right-4">
+        <div className="p-2 px-5 space-y-2">
+          <div className="flex justify-between">
+            <div className="flex items-center space-x-0.5">
+              <i className="icon format ai-start" />
+              <span className="text-lg ai-text">AI 편집</span>
+            </div>
+            <button className="text-sm" onClick={() => onClose()}>
+              <i className="icon format cancel hover:bg-gray-400" />
+            </button>
+          </div>
+          <div className="text-sm pl-0.5">{title}</div>
+        </div>
+        <div className="border-t border-neutral-800"></div>
+        <div className="p-3 px-5 space-y-6 markdown">
+          {loading ? (
+            <ImSpinner2 className="animate-spin" />
+          ) : (
+            <p ref={ref} className="text-sm text-gray-300 leading-6"></p>
+          )}
+          <div className="flex justify-end space-x-1.5">
+            <button
+              disabled={loading}
+              onClick={() => edit()}
+              className="p-2 px-12 rounded bg-teal-500 sm hover:bg-teal-600"
+            >
+              추가
+            </button>
+            <button
+              disabled={loading}
+              onClick={() => copy()}
+              className="p-2 px-12 rounded bg-indigo-500 sm hover:bg-indigo-600"
+            >
+              복사
             </button>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -104,7 +275,6 @@ export const useModal = (): [
       return null;
     }
     const { title, content, closeOnClickOutside } = modalContent;
-    console.log(title, content)
     return (
       <Modal
         onClose={onClose}
@@ -114,7 +284,7 @@ export const useModal = (): [
         {content}
       </Modal>
     );
-  }, [modalContent, onClose]);
+  }, [modalContent]);
 
   const showModal = useCallback(
     (
@@ -145,7 +315,6 @@ export const Modal = ({
   onClose: () => void;
   title: string;
 }): JSX.Element => {
-  console.log(children, title)
   return createPortal(
     <PortalImpl
       onClose={onClose}
@@ -157,25 +326,3 @@ export const Modal = ({
     document.body
   );
 };
-
-const Page = () => {
-  const [modal, showModal] = useModal();
-
-  return (
-    <>
-      <button
-        onClick={() => {
-          {
-            showModal('test', (onClose) => <div>모달 내용</div>);
-          }
-        }}
-      >
-        Modal Open
-      </button>
-
-      {modal}
-    </>
-  );
-};
-
-export default Page;

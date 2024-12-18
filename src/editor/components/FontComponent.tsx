@@ -1,7 +1,7 @@
 import { $getSelection, LexicalEditor } from 'lexical';
 import { useCallback } from 'react';
 import { $patchStyleText } from '@lexical/selection';
-import Dropdown, { DropDownItem } from '@/pages/components/dropdown/Dropdown';
+import DropDown, { DropDownItem } from '@/pages/components/dropdown/DropDown';
 import { FONT_FAMILY_OPTIONS, FONT_SIZE_OPTIONS } from '@/editor/utils/constant';
 
 const FontDropDown = ({
@@ -30,7 +30,7 @@ const FontDropDown = ({
   );
 
   return (
-    <Dropdown
+    <DropDown
       text={value}
       disabled={disabled}
       buttonIconClassNamePost="format down"
@@ -51,7 +51,7 @@ const FontDropDown = ({
           </DropDownItem>
         ),
       )}
-    </Dropdown>
+    </DropDown>
   );
 }
 

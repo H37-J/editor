@@ -7,12 +7,12 @@ import { getCookie, setCookie } from "cookies-next";
 import { v4 } from 'uuid';
 import { z } from 'zod';
 
-const monthFromNow = () => {
+export const monthFromNow = () => {
   const now = new Date(Date.now());
   return new Date(now.setMonth(now.getMonth() + 1));
 };
 
-function cookieToString(cookie: string | undefined | null | boolean) {
+export function cookieToString(cookie: string | undefined | null | boolean) {
   switch (typeof cookie) {
     case "boolean":
       return cookie.toString();
@@ -65,8 +65,6 @@ export const options = (
                 superAdmin: false,
               } as AdapterUser);
           }
-
-
         },
       }),
     ],
@@ -82,7 +80,7 @@ export const options = (
           if (adapter.createSession) {
             const session = await adapter.createSession({
               sessionToken: v4(),
-              userId: user.id,
+              userId: String(user.id),
               expires: monthFromNow(),
             });
 

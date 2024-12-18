@@ -8,9 +8,10 @@ const getBaseUrl = () => {
   return `http://localhost:${process.env.PORT || 3000}`;
 }
 
-export const api = createTRPCNext<AppRouter>({
+const api = createTRPCNext<AppRouter>({
   config() {
     return {
+      bodyParser: { limit: '5mb' },
       transformer: superjson,
       links: [
         loggerLink({
@@ -26,3 +27,5 @@ export const api = createTRPCNext<AppRouter>({
   },
   ssr: false,
 });
+
+export default api;

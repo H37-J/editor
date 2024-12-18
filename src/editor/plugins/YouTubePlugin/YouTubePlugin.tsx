@@ -3,6 +3,8 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { JSX, useEffect } from 'react';
 import { $createYouTubeNode, YouTubeNode } from '@/editor/plugins/YouTubePlugin/YouTubeNode';
 import { $insertNodeToNearestRoot } from '@lexical/utils';
+import { useRouter } from 'next/router';
+import api from '@/utils/api';
 
 
 export const INSERT_YOUTUBE_COMMAND: LexicalCommand<string> = createCommand(
@@ -11,6 +13,7 @@ export const INSERT_YOUTUBE_COMMAND: LexicalCommand<string> = createCommand(
 
 const YouTubePlugin = (): JSX.Element | null => {
   const [editor] = useLexicalComposerContext();
+
 
   useEffect(() => {
     if (!editor.hasNodes([YouTubeNode])) {

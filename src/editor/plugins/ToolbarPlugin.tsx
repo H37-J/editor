@@ -48,6 +48,10 @@ import { $isDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode'
 import FontDropDown from '@/editor/components/FontComponent';
 import DropdownColorPicker from '@/editor/components/DropdownColorPicker';
 import ColorPickerImage from '@/styles/images/color.png';
+import AiComponent from '@/editor/components/AiComponent';
+import { useEditorStore } from '@/store/zustand/editorStore';
+import api from '@/utils/api';
+import { useRouter } from 'next/router';
 
 const LowPriority = 1;
 
@@ -61,12 +65,13 @@ export default function ToolbarPlugin({
   setIsLinkEditMode: Dispatch<boolean>;
 }) {
   const [editor] = useLexicalComposerContext();
-  const [activeEditor, setActiveEditor] = useState(editor);
+  // const [activeEditor, setActiveEditor] = useState(editor);
   const [blockType, setBlockType] =
     useState<keyof typeof blockTypeToBlockName>('paragraph');
   const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
     null
   );
+
   const [fontSize, setFontSize] = useState<string>('15px');
   const [fontColor, setFontColor] = useState<string>('#000');
   const [bgColor, setBgColor] = useState<string>('#fff');
@@ -82,10 +87,10 @@ export default function ToolbarPlugin({
   const [isCode, setIsCode] = useState(false);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-  const [isRTL, setIsRTL] = useState(false);
   const [codeLanguage, setCodeLanguage] = useState<string>('');
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
   const imageRef = useRef<HTMLInputElement>(null);
+
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -105,7 +110,7 @@ export default function ToolbarPlugin({
       }
 
       const elementKey = element.getKey();
-      const elementDOM = activeEditor.getElementByKey(elementKey);
+      const elementDOM = editor.getElementByKey(elementKey);
 
       const node = getSelectionNode(selection);
       const parent = node.getParent();
@@ -116,7 +121,7 @@ export default function ToolbarPlugin({
       }
 
       if (elementDOM !== null) {
-        setSelectedElementKey(elementKey);
+        useEditorStore.getState().setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(
             anchorNode,
@@ -125,7 +130,7 @@ export default function ToolbarPlugin({
           const type = parentList
             ? parentList.getListType()
             : element.getListType();
-          if(type === 'check') return
+          if (type === 'check') return;
           setBlockType(type);
         } else {
           const type = $isHeadingNode(element)
@@ -157,11 +162,14 @@ export default function ToolbarPlugin({
         )
       );
 
-      const family= FONT_FAMILY_MAP[$getSelectionStyleValueForProperty(
-        selection,
-        'font-family',
-        'sans-serif'
-      )];
+      const family =
+        FONT_FAMILY_MAP[
+          $getSelectionStyleValueForProperty(
+            selection,
+            'font-family',
+            'sans-serif'
+          )
+        ];
 
       if (family) {
         setFontFamily(family);
@@ -196,34 +204,37 @@ export default function ToolbarPlugin({
         $getSelectionStyleValueForProperty(selection, 'font-size', '15px')
       );
     }
-  }, [activeEditor, editor]);
+  }, [editor]);
 
   useEffect(() => {
-    activeEditor.getEditorState().read(() => {
+    editor.getEditorState().read(() => {
       $updateToolbar();
     });
-  }, [activeEditor, $updateToolbar]);
+  }, [editor, $updateToolbar]);
 
   useEffect(() => {
     return mergeRegister(
       editor.registerEditableListener((editable) => {
         setIsEditable(editable);
       }),
-      activeEditor.registerUpdateListener(({ editorState }) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           $updateToolbar();
         });
       }),
-      activeEditor.registerCommand(
+      editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
         (_payload, newEditor) => {
-          setActiveEditor(newEditor);
+          const selection = $getSelection();
+          if (selection) {
+            useEditorStore.getState().setSelectedContent(selection.getTextContent())
+          }
           $updateToolbar();
           return false;
         },
         COMMAND_PRIORITY_CRITICAL
       ),
-      activeEditor.registerCommand(
+      editor.registerCommand(
         CAN_UNDO_COMMAND,
         (payload) => {
           setCanUndo(payload);
@@ -231,7 +242,7 @@ export default function ToolbarPlugin({
         },
         COMMAND_PRIORITY_CRITICAL
       ),
-      activeEditor.registerCommand(
+      editor.registerCommand(
         CAN_REDO_COMMAND,
         (payload) => {
           setCanRedo(payload);
@@ -240,10 +251,10 @@ export default function ToolbarPlugin({
         COMMAND_PRIORITY_CRITICAL
       )
     );
-  }, [activeEditor, editor, $updateToolbar]);
+  }, [editor, $updateToolbar]);
 
   useEffect(() => {
-    return activeEditor.registerCommand(
+    return editor.registerCommand(
       KEY_MODIFIER_COMMAND,
       (payload) => {
         const event: KeyboardEvent = payload;
@@ -259,17 +270,17 @@ export default function ToolbarPlugin({
             setIsLinkEditMode(false);
             url = null;
           }
-          return activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, url);
+          return editor.dispatchCommand(TOGGLE_LINK_COMMAND, url);
         }
         return false;
       },
       COMMAND_PRIORITY_NORMAL
     );
-  }, [activeEditor, isLink, setIsLinkEditMode]);
+  }, [editor, isLink, setIsLinkEditMode]);
 
   const applyStyleText = useCallback(
     (styles: Record<string, string>, skipHistoryStack?: boolean) => {
-      activeEditor.update(
+      editor.update(
         () => {
           const selection = $getSelection();
           if (selection !== null) {
@@ -279,11 +290,11 @@ export default function ToolbarPlugin({
         skipHistoryStack ? { tag: 'historic' } : {}
       );
     },
-    [activeEditor]
+    [editor]
   );
 
   const clearFormatting = useCallback(() => {
-    activeEditor.update(() => {
+    editor.update(() => {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
         const anchor = selection.anchor;
@@ -326,11 +337,11 @@ export default function ToolbarPlugin({
         });
       }
     });
-  }, [activeEditor]);
+  }, [editor]);
 
   const onFontColorSelect = useCallback(
     (value: string, skipHistoryStack: boolean) => {
-      setFontColor(value)
+      setFontColor(value);
       applyStyleText({ color: value }, skipHistoryStack);
     },
     [applyStyleText]
@@ -346,19 +357,19 @@ export default function ToolbarPlugin({
   const insertLink = useCallback(() => {
     if (!isLink) {
       setIsLinkEditMode(true);
-      activeEditor.dispatchCommand(
+      editor.dispatchCommand(
         TOGGLE_LINK_COMMAND,
         sanitizeUrl('https://')
       );
     } else {
       setIsLinkEditMode(false);
-      activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     }
-  }, [activeEditor, isLink, setIsLinkEditMode]);
+  }, [editor, isLink, setIsLinkEditMode]);
 
   const onCodeLanguageSelect = useCallback(
     (value: string) => {
-      activeEditor.update(() => {
+      editor.update(() => {
         if (selectedElementKey !== null) {
           const node = $getNodeByKey(selectedElementKey);
           if ($isCodeNode(node)) {
@@ -367,16 +378,17 @@ export default function ToolbarPlugin({
         }
       });
     },
-    [activeEditor, selectedElementKey]
+    [editor, selectedElementKey]
   );
 
   return (
-    <div className="toolbar">
+    <div className="toolbar z-50">
       <div className="hidden">
-        <ImageDialog ref={imageRef} activeEditor={editor} onClose={() => {
-        }} />
+        <ImageDialog ref={imageRef} editor={editor} />
       </div>
-      <InsertComponent activeEditor={activeEditor} imageRef={imageRef} />
+      <InsertComponent editor={editor} imageRef={imageRef} />
+      <AiComponent editor={editor} />
+      <Divider />
       <DropdownColorPicker
         disabled={!isEditable}
         buttonClassName="toolbar-item color-picker relative"
@@ -484,7 +496,7 @@ export default function ToolbarPlugin({
       </button>
       <div className="divider" />
       <BlockFormatComponent
-        editor={activeEditor}
+        editor={editor}
         disabled={!isEditable}
         blockType={blockType}
       />
@@ -492,7 +504,7 @@ export default function ToolbarPlugin({
         disabled={!isEditable}
         style={'font-family'}
         value={fontFamily}
-        editor={activeEditor}
+        editor={editor}
       />
       <div className="divider" />
     </div>
