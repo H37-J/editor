@@ -87,7 +87,7 @@ export const options = (
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             if ('sessionToken' in session) {
               setCookie('next-auth.session-token', session.sessionToken, {
-                expires: session.expires,
+                // expires: session.expires,
                 req: req,
                 res: res,
               });
