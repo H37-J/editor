@@ -34,7 +34,7 @@ const Page = () => {
         </>
       ) : (
         <>
-          <div className="flex justify-center items-center flex-1 bg-gradient-to-r from-[#222126] from-5% via-[#29282a] via-50% to-[#2b292d] to-100%">
+          <div className="flex h-full justify-center items-center flex-1 bg-gradient-to-r from-[#222126] from-5% via-[#29282a] via-50% to-[#2b292d] to-100%">
             <div
               onClick={() => postCreate()}
               className="flex flex-col items-center cursor-pointer"
