@@ -8,7 +8,7 @@ import prisma from '@/server/prisma';
 import { NextApiRequest, type NextApiResponse } from 'next';
 import { getCookie } from 'cookies-next';
 
-export const authOptions = (req: NextApiRequest, res: NextApiResponse) : NextAuthOptions => {
+export const authOptions: NextAuthOptions = {
   return {
     adapter: PrismaAdapter(prisma),
     providers: [
