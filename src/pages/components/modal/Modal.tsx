@@ -327,7 +327,7 @@ export const useModal = (): [
   return [modal, showModal];
 };
 
-export const Modal = ({
+const Modal = ({
   onClose,
   children,
   title,
@@ -349,3 +349,5 @@ export const Modal = ({
     document.body
   );
 };
+
+export default Modal;

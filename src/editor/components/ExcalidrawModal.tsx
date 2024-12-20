@@ -5,7 +5,7 @@ import {
   ExcalidrawInitialDataState,
 } from '@excalidraw/excalidraw/types/types';
 import { ReactPortal, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Modal } from '@/pages/components/modal/Modal';
+import  Modal  from '@/pages/components/modal/Modal';
 import Button from '@/pages/components/input/Button';
 import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
