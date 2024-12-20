@@ -1,4 +1,3 @@
-import Clock from '@/pages/components/clock/Clock';
 import useAuth from '@/hooks/useAuth';
 import React, { useEffect, useState } from 'react';
 import api from '@/utils/api';
