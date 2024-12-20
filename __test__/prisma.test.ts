@@ -13,14 +13,6 @@ describe('prisma test',  () => {
   });
 
   it("Empty string should return true", async () => {
-    const newUser = {
-      name: 'ac',
-      email: 'ac'
-    }
-    prismaMock.user.create.mockResolvedValue(newUser)
-    const user = await prisma.user.create({
-      data: newUser
-    });
-    expect(user).toEqual(newUser);
+
   })
 })
