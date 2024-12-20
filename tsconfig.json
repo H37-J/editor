@@ -28,15 +28,6 @@
       ]
     },
     "typeRoots": [
-      "./src/types",
-      "./node_modules/@types",
-      "./node_modules/@vercel/style-guide/node_modules/@types"
-    ],
-    "types": [
-      "./src/types",
-      "./node_modules/@types",
-      "./node_modules/@vercel/style-guide/node_modules/@types",
-      "./node_modules/@types/prettier"
     ],
     "plugins": [
       {
