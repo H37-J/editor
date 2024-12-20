@@ -1,4 +1,4 @@
-import type { Post as PrismaPost } from '../../node_modules/.prisma/client'
+import type { Post as PrismaPost } from '../../generated/.prisma/client';
 import useAuth from '@/hooks/useAuth';
 import api from '@/utils/api';
 import {
