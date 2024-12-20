@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import useAuth from '@/hooks/useAuth';
 
 const Document = () => {
-
   return (
     <Html lang="en">
       <Head />
@@ -14,6 +13,6 @@ const Document = () => {
       </body>
     </Html>
   );
-}
+};
 
 export default Document;
