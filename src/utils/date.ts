@@ -3,7 +3,7 @@ export const date = (value: Date) => {
   const date2 = new Date();
   // @ts-ignore
   const result = (date2 - date1);
-  const seconds = Math.floor(result / 1000);
+  const seconds = Math.floor((result + 1000) / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
