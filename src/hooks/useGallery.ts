@@ -1,5 +1,5 @@
 import { CreateImageProps } from '@/server/api/routers/galleryRouter';
-import type { Gallery as PrismaGallery } from '@prisma/client'
+import type { Gallery as PrismaGallery } from '../../node_modules/.prisma/client'
 import useAuth from '@/hooks/useAuth';
 import api from '@/utils/api';
 
