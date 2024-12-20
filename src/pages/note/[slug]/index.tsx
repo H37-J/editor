@@ -151,7 +151,7 @@ const Editor = () => {
                       <div className="editor" ref={onRef}>
                         <ContentEditable
                           ref={editorRef}
-                          className="editor-content pb-8"
+                          className="editor-content pb-12"
                           aria-placeholder={'내용을 입력해 주세요'}
                           placeholder={
                             <div className="editor-placeholder">
