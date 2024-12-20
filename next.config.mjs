@@ -3,6 +3,9 @@
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  optimizePackageImports: [
+    '@prisma/client',
+  ],
   webpack: function(config, options) {
     config.experiments = { asyncWebAssembly: true, layers: true };
     config.watchOptions = {
