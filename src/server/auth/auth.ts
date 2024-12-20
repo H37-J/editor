@@ -9,7 +9,6 @@ import { NextApiRequest, type NextApiResponse } from 'next';
 import { getCookie } from 'cookies-next';
 
 export const authOptions: NextAuthOptions = {
-  return {
     adapter: PrismaAdapter(prisma),
     providers: [
       GoogleProvider({
@@ -30,6 +29,5 @@ export const authOptions: NextAuthOptions = {
       }
     },
     secret: process.env.NEXTAUTH_SECRET,
-  }
 }
 
