@@ -1,6 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 
-import { Prisma } from '.prisma/client';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import merge from 'lodash/merge';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -33,7 +32,7 @@ export const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
     async session({ session, user } ) {
       const data= await prisma.session.findFirstOrThrow({
         where: { userId: user?.id as unknown as number },
-        orderBy: { expires: Prisma.SortOrder.desc },
+        orderBy: { expires: "desc" },
       });
       session.accessToken = data.sessionToken;
       session.user.id = Number(user.id);
