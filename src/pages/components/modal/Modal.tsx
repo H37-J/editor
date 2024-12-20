@@ -45,7 +45,6 @@ const PortalImpl = ({
 
     const clickOutSideHandler = (event: MouseEvent) => {
       const target = event.target;
-      console.log(modalRef, target, closeOnClickOutside);
       if (
         modalRef.current !== null &&
         !modalRef.current!.contains(target as Node) &&

@@ -17,7 +17,7 @@ const Gallery = () => {
       {modal}
       <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-6 gap-4">
         {images && images.map((image) => (
-          <div className="image-container">
+          <div className="image-container md:max-h-[200px] max-h-[300px]">
             <img
               onClick={() => openModal(image.image)}
               className="w-full h-full rounded-lg cursor-pointer transition duration-300 hover:scale-103 hover:-translate-y-1"
