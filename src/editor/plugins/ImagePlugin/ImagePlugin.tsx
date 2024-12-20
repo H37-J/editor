@@ -11,6 +11,10 @@ import {
 } from 'lexical';
 import React, { forwardRef, RefObject, useEffect } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import api from '@/utils/api';
+import { usePost } from '@/hooks/usePost';
+import { useRouter } from 'next/router';
+import { useGallery } from '@/hooks/useGallery';
 
 export type InsertImagePayload = Readonly<ImagePayload>;
 
@@ -28,7 +32,8 @@ export const ImageDialog = React.forwardRef((
   },
   ref: React.ForwardedRef<HTMLInputElement>,
 ) => {
-
+  const galleryUtils = useGallery();
+  const router = useRouter();
   const loadImage = (files: FileList | null) => {
     const reader = new FileReader();
     reader.onload = function() {
@@ -46,7 +51,11 @@ export const ImageDialog = React.forwardRef((
     }
   };
 
-  const onClick = (payload: InsertImagePayload) => {
+  const onClick = async (payload: InsertImagePayload) => {
+    await galleryUtils.createGallery({
+      image: payload.src,
+      postUUid: String(router.query.slug!),
+    })
     editor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
   };
 

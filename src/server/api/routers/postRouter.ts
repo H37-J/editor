@@ -13,25 +13,31 @@ export type CreatePostProps = z.infer<typeof createPostParser>;
 const upsertPostParser = z.object({
   title: z.string(),
   content: z.string(),
-  uuid: z.string() || z.array(z.string()),
+  uuid: z.string()
 });
 
 export type UpsertPostProps = z.infer<typeof upsertPostParser>;
 
 const updateTitleParser = z.object({
   title: z.string(),
-  uuid: z.string() || z.array(z.string()),
+  uuid: z.string()
 });
 
 export type UpdateTitleProps = z.infer<typeof updateTitleParser>;
 
 const updateContentParser = z.object({
   content: z.string(),
-  uuid: z.string() || z.array(z.string()),
+  uuid: z.string()
 });
 
 export type UpdateContentProps = z.infer<typeof updateContentParser>;
 
+const updateImageParser = z.object({
+  image: z.string(),
+  uuid: z.string()
+})
+
+export type UpdateImageProps = z.infer<typeof updateImageParser>;
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createPostParser)
@@ -115,4 +121,12 @@ export const postRouter = createTRPCRouter({
         data: { content: input.content },
       });
     }),
+  updateImage: protectedProcedure
+    .input(updateImageParser)
+    .mutation(async ({ input, ctx }) => {
+      return prisma.post.update({
+        where: {uuid: input.uuid, userId: ctx.session?.user.id },
+        data: {image: input.image },
+      })
+    })
 });

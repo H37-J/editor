@@ -18,15 +18,13 @@ const Layout = ({ children }) => {
 
   return shouldUseLayout ? (
     <div
-      className="h-screen py-1.5 px-1.5 ml-16 md:ml-80 space-x-1.5 "
+      className="h-screen md:p-1.5 md:ml-72 md:space-x-1.5"
       suppressHydrationWarning={true}
     >
       {session && (
         <>
           <NavBar />
-          <div className="flex flex-1 h-full">
             {children}
-          </div>
         </>
       )}
     </div>

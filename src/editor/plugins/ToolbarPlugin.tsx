@@ -382,7 +382,7 @@ export default function ToolbarPlugin({
   );
 
   return (
-    <div className="toolbar z-50">
+    <div className="toolbar z-50 overflow-visible overflow-x-auto" id="scrollbar1">
       <div className="hidden">
         <ImageDialog ref={imageRef} editor={editor} />
       </div>

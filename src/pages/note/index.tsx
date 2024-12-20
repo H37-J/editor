@@ -5,23 +5,26 @@ import { v4 } from 'uuid';
 import { usePost } from '@/hooks/usePost';
 import api from '@/utils/api';
 import SideNoteList from '@/pages/components/ui/note/SideNoteList';
+import { DefaultEditorContent } from '@/utils/constant';
 
 const Page = () => {
   const router = useRouter();
   const uuid = v4();
   const postUtils = usePost();
-  const temp =
-    '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}';
-  const { data: posts } = api.post.getAll.useQuery(undefined, {});
+  const { data: posts, isLoading } = api.post.getAll.useQuery(undefined, {});
 
   const postCreate = async () => {
     await postUtils.upsertPost({
       uuid: uuid,
-      content: temp,
+      content: DefaultEditorContent,
       title: '제목 없음',
     });
     await router.push(`/note/${uuid}`);
   };
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <>

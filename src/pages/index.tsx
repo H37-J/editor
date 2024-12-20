@@ -1,6 +1,6 @@
 import Clock from '@/pages/components/clock/Clock';
 import useAuth from '@/hooks/useAuth';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '@/utils/api';
 import { formatDate, formatDateExcludeTime } from '@/utils/date';
 import { useRouter } from 'next/router';
@@ -11,16 +11,45 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import ContentPlugin from '@/editor/plugins/ContentPlugin';
 import { GrNotes } from 'react-icons/gr';
+import { DefaultEditorContent } from '@/utils/constant';
+import { usePost } from '@/hooks/usePost';
+import { v4 } from 'uuid';
+import SnippetModal from '@/pages/components/modal/SnippetModal';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { useModal } from '@/pages/components/modal/Modal';
+import GalleryModal from '@/pages/components/modal/GalleryModal';
 
 const Page = () => {
   const { session } = useAuth();
   const { data: posts } = api.post.getTakeAll.useQuery(10, {});
-  const { data: recentPost } = api.post.getTakeAll.useQuery(3, {});
+  const { data: recentPost } = api.post.getTakeAll.useQuery(6, {});
+  let { data: codes } = api.code.getAll.useQuery('');
+  const { data: images} = api.gallery.getTakeAll.useQuery(24, {})
+  const [showId, setShowId] = useState(0);
+  const [modal, showModal] = useModal();
   const router = useRouter();
+  const postUtils = usePost();
+  const uuid = v4();
 
+  const postCreate = async () => {
+    await postUtils.upsertPost({
+      uuid: uuid,
+      content: DefaultEditorContent,
+      title: '제목 없음',
+    });
+    await router.push(`/note/${uuid}`);
+  };
+
+  const openModal = (image: string) => {
+    showModal('이미지', (onClose) => (
+      <GalleryModal image={image} />
+    ))
+  }
   return (
     <>
-      <div className="flex-1 p-10 bg-gradient-to-r from-[#222126] from-5% via-[#29282a] via-50% to-[#2b292d] to-100%">
+      {modal}
+      <div className="flex flex-col flex-1 h-full overflow-auto p-10 bg-gradient-to-r from-[#222126] from-5% via-[#29282a] via-50% to-[#2b292d] to-100%">
         <div className="flex">
           <div className="flex-1 space-y-1">
             <div className="text-neutral-400 text-xs">
@@ -38,15 +67,19 @@ const Page = () => {
           )}
         </div>
 
-        <div className="space-y-2 mt-12">
+        {/*최근노트*/}
+        <div className="space-y-3 mt-12">
           <div className="flex justify-between">
-            <div className="pl-1">최근 노트</div>
+            <h1>최근 노트</h1>
           </div>
-          <div className="flex space-x-1.5">
+          <div className="flex space-x-1.5 overflow-x-auto" id="scrollbar1">
             {recentPost &&
               recentPost.map((post) => {
                 return (
-                  <div onClick={() => router.push(`/note/${post.uuid}`)} className="overflow-hidden bg-[#191919] w-36 p-3 px-4 text-sm rounded space-y-1 cursor-pointer ">
+                  <div
+                    onClick={() => router.push(`/note/${post.uuid}`)}
+                    className="bg-[#191919] w-36 p-3 px-4 text-sm rounded space-y-1 cursor-pointer flex-shrink-0"
+                  >
                     <h2>{post.title}</h2>
                     <div
                       style={{ fontSize: '11px' }}
@@ -69,14 +102,19 @@ const Page = () => {
                         <ContentPlugin content={post.content} />
                       </LexicalComposer>
                     </div>
-                    <div style={{ fontSize: '11px' }} className="text-zinc-400">
+                    <div
+                      style={{ fontSize: '11px' }}
+                      className="text-zinc-400"
+                    >
                       {formatDateExcludeTime(post.updateDate)}
                     </div>
                   </div>
                 );
               })}
-            <div className="bg-[#191919] hover:bg-[#202020] cursor-pointer w-36 p-3 px-4 text-sm rounded overflow-hidden space-y-1">
+            <div
+              className="bg-[#191919] hover:bg-[#202020] cursor-pointer w-36 p-3 px-4 text-sm rounded overflow-hidden space-y-1 flex-shrink-0">
               <div
+                onClick={() => postCreate()}
                 className="flex flex-col space-y-2 pt-6 leading-4 h-[145px] overflow-hidden
                 justify-center items-center"
               >
@@ -87,15 +125,12 @@ const Page = () => {
           </div>
         </div>
 
-        <div className="md:flex mt-8 max-w-[1000px]">
-          <div className="md:basis-1/2">
+        {/*작업*/}
+        <div className="mt-8 mb-8">
             <h1 className="">작업</h1>
             <div className="flex text-sm space-x-2 mt-5 border-zinc-700 border-b">
               <div className="border-b border-white pb-2 px-6 pl-1 cursor-pointer">
-                내 노트
-              </div>
-              <div className="border-b border-transparent pb-2 px-4 cursor-pointer">
-                내 이미지
+                노트
               </div>
             </div>
 
@@ -119,10 +154,11 @@ const Page = () => {
                   </>
                 );
               })}
-          </div>
-          <div className="md:basis-1/2"></div>
         </div>
+
+
       </div>
+
     </>
   );
 };

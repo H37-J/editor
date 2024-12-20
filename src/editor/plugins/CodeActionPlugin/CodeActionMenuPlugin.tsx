@@ -12,6 +12,7 @@ import { createPortal } from 'react-dom';
 import Dropdown, { DropDownItem } from '@/pages/components/dropdown/DropDown';
 import { CODE_LANGUAGE_OPTIONS } from '@/editor/plugins/CodePlugin/CodeComponent';
 import { useEditorStore } from '@/store/zustand/editorStore';
+import { onCodeLanguageSelect } from '@/editor/utils/editor';
 
 const CODE_PADDING = 8;
 
@@ -122,16 +123,6 @@ const CodeActionMenuContainer = ({
     );
   }, [editor]);
 
-  const onCodeLanguageSelect = (editor: LexicalEditor, language: string) => {
-    editor.update(() => {
-      if (useEditorStore.getState().selectedElementKey !== null) {
-        const node = $getNodeByKey(useEditorStore.getState().selectedElementKey!);
-        if ($isCodeNode(node)) {
-          node.setLanguage(language);
-        }
-      }
-    })
-  }
 
   const codeFriendlyName = useMemo(() => {
     return getLanguageFriendlyName(lang);

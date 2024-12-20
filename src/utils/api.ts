@@ -11,7 +11,7 @@ const getBaseUrl = () => {
 const api = createTRPCNext<AppRouter>({
   config() {
     return {
-      bodyParser: { limit: '5mb' },
+      bodyParser: { limit: '100mb' },
       transformer: superjson,
       links: [
         loggerLink({

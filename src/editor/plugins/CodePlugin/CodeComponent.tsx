@@ -22,6 +22,26 @@ export const CODE_LANGUAGE_FRIENDLY_NAME_MAP: Record<string, string> = {
   xml: 'XML',
 };
 
+export const CODE_LANGUAGE_LIST = [
+  'C',
+  'C++',
+  'C#',
+  'HTML',
+  'CSS',
+  'GO',
+  'Java',
+  'JavaScript',
+  'JSON',
+  'PHP',
+  'Spring',
+  'React',
+  'NextJs',
+  'Vue',
+  'Python',
+  'SQL',
+  'TypeScript',
+  'Kotlin',
+]
 
 
 const getCodeLanguageOption = (): [string, string][] => {
@@ -51,6 +71,7 @@ export const formatCode = (editor: LexicalEditor) => {
         selection.insertNodes([codeNode]);
         selection = $getSelection();
           selection?.insertRawText(textContent);
+        codeNode.setLanguage('java')
       }
     }
   });

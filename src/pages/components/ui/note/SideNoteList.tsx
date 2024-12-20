@@ -5,14 +5,15 @@ import { usePost } from '@/hooks/usePost';
 import { useRouter } from 'next/router';
 import api from '@/utils/api';
 import { v4 } from 'uuid';
+import { DefaultEditorContent } from '@/utils/constant';
+import { useEditorStore } from '@/store/zustand/editorStore';
 
-const SideNoteList = () => {
+const SideNoteList = ({className}: {className?: string}) => {
   const uuid = v4();
   const postUtils = usePost();
   const router = useRouter();
   const [showTrash, setShowTrash] = useState(false);
-  const temp =
-    '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}';
+  const [open, setOpen] = useState(false);
 
   const { data: posts } = api.post.getAll.useQuery(undefined, {
     enabled: router.isReady,
@@ -21,7 +22,7 @@ const SideNoteList = () => {
   const postCreate = async () => {
     await postUtils.createPost({
       uuid: uuid,
-      content: temp,
+      content: DefaultEditorContent,
       title: '제목 없음',
     });
     await router.push(`/note/${uuid}`);
@@ -30,8 +31,14 @@ const SideNoteList = () => {
   const delete_ = async (uuid: string) => {
     await postUtils.deleteByUUid(uuid);
   };
+
+  const note = async (uuid: string) => {
+    useEditorStore.getState().setShowNote(true);
+    await router.push(`/note/${uuid}`);
+  }
+
   return (
-    <div className="w-[300px] p-3 px-4 overflow-y-auto bg-gradient-to-r from-[#222126] from-5% via-[#29282a] via-50% to-[#2b292d] to-100%">
+    <div className={`w-full md:w-[400px] p-3 px-4 overflow-auto h-full bg-gradient-to-r from-[#222126] from-5% via-[#29282a] via-50% to-[#2b292d] to-100% ${className} transition-transform duration-300 ${open}`}>
       <div>
         <div className="text-xl flex justify-between items-center">
           <h2>노트</h2>
@@ -71,8 +78,8 @@ const SideNoteList = () => {
                   />
                 )}
                 <div
-                  onClick={() => router.push(`/note/${post.uuid}`)}
-                  className="flex flex-1 justify-between text-xs py-2 font-normal border-b border-neutral-750 hover:bg-zinc-800 cursor-pointer"
+                  onClick={() => note(post.uuid)}
+                  className="flex flex-1 justify-between text-xs py-3 md:py-2.5 font-normal border-b border-neutral-750 hover:bg-zinc-800 cursor-pointer"
                 >
                   <div>{post.title}</div>
                   <div className="flex space-x-6 items-center">

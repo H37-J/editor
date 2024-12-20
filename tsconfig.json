@@ -44,7 +44,8 @@
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "../../../AppData/Roaming/Python/Python312/site-packages/g4f/gui/client/static/js/chat.v1.js"
   ],
   "exclude": [
     "node_modules",

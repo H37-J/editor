@@ -5,7 +5,7 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import React, { useEffect, useRef, useState } from 'react';
-import {ClickableLinkPlugin} from '@lexical/react/LexicalClickableLinkPlugin';
+import { ClickableLinkPlugin } from '@lexical/react/LexicalClickableLinkPlugin';
 import EditorTheme from '@/editor/theme/EditorTheme';
 import OnChangePlugin from '@/editor/plugins/OnChangePlugin';
 import ToolbarPlugin from '@/editor/plugins/ToolbarPlugin';
@@ -38,6 +38,9 @@ import { date } from '@/utils/date';
 import InitialStatePlugin from '@/editor/plugins/InitialStatePlugin';
 import SideNoteList from '@/pages/components/ui/note/SideNoteList';
 import LinkPlugin from '@/editor/plugins/LinkPlugin';
+import { useModal } from '@/pages/components/modal/Modal';
+import { useEditorStore } from '@/store/zustand/editorStore';
+import NavBar from '@/pages/components/layout/NavBar';
 
 export const editorConfig = {
   namespace: 'Editor',
@@ -48,20 +51,24 @@ export const editorConfig = {
   },
 };
 
-const defaultState =
-  '{"_nodeMap":[["root",{"__children":["1"],"__dir":null,"__format":0,"__indent":0,"__key":"root","__parent":null,"__type":"root"}],["1",{"__type":"paragraph","__parent":"root","__key":"1","__children":[],"__format":0,"__indent":0,"__dir":null}]],"_selection":{"anchor":{"key":"1","offset":0,"type":"element"},"focus":{"key":"1","offset":0,"type":"element"},"type":"range"}}';
-
 const Editor = () => {
   const { session } = useAuth();
   const [title, setTitle] = useState('');
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
+  const editorRef = useRef<HTMLDivElement | null>(null);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
+  const [showNote, setShowNote] = useState(false);
+  const [viewportSize, setViewportSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
-
+  const [modal, showModal] = useModal();
   const postUtils = usePost();
   const router = useRouter();
   const slug = String(router.query.slug);
+  const note = useEditorStore.use.showNote();
 
   const { data: post, isLoading } = api.post.findByUUId.useQuery(slug, {
     enabled: router.isReady,
@@ -74,6 +81,9 @@ const Editor = () => {
   };
 
   const onChange = async (editorState: { toJSON: () => any }) => {
+    if (isLoading) {
+      return false;
+    }
     const state = JSON.stringify(editorState.toJSON());
     await postUtils.updateContent({
       uuid: slug,
@@ -90,32 +100,48 @@ const Editor = () => {
     });
   };
 
-
   useEffect(() => {
     if (post) {
       setTitle(post.title! === '제목 없음' ? '' : post.title!);
     }
   }, [post]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
   if (isLoading) {
     return null;
   }
 
   return (
-    <>
-      <SideNoteList/>
+    <div className="flex h-full">
+      {modal}
+      {note && viewportSize.width <= 768 ? <></> : <SideNoteList />}
       {router.query.slug && post && (
         <>
           <LexicalComposer initialConfig={editorConfig}>
-            <div className="editor-container flex flex-1 flex-col shadow-xl shadow-zinc-900 ml-1">
+            <div className="editor-container w-screen shadow-xl shadow-zinc-900 md:ml-1">
               <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
-              <div className=" flex flex-col flex-1">
+              <InitialStatePlugin />
+              <div className="flex flex-col flex-1">
                 <textarea
-                  placeholder="제목"
                   ref={titleRef}
                   autoFocus={true}
+                  placeholder="제목"
                   value={title}
-                  className="p-1 pb-0 px-2 bg-[#141414] py-3 text-3xl outline-0 resize-none"
+                  className="p-1 pb-0 px-2 bg-[#141414] py-3 text-3xl outline-0 resize-none outline-none"
                   rows={1}
                   onChange={(e) => save(e)}
                 />
@@ -124,7 +150,8 @@ const Editor = () => {
                     <div className="editor-scroller">
                       <div className="editor" ref={onRef}>
                         <ContentEditable
-                          className="editor-content"
+                          ref={editorRef}
+                          className="editor-content pb-8"
                           aria-placeholder={'내용을 입력해 주세요'}
                           placeholder={
                             <div className="editor-placeholder">
@@ -141,12 +168,11 @@ const Editor = () => {
                 <OnChangePlugin onChange={onChange} />
                 <HistoryPlugin />
                 <AutoFocusPlugin />
-                <ClickableLinkPlugin/>
+                <ClickableLinkPlugin />
                 <LexicalAutoLinkPlugin />
                 <CodeHilightPlugin />
                 <YouTubePlugin />
                 <LinkPlugin />
-                <InitialStatePlugin />
                 <DragDropPastePlugin />
                 <AutoEmbedPlugin />
                 <ListPlugin />
@@ -167,11 +193,12 @@ const Editor = () => {
                 <TablePlugin />
                 <TableCellResizerPlugin />
               </div>
+              <NavBar editor={true} />
             </div>
           </LexicalComposer>
         </>
       )}
-    </>
+    </div>
   );
 };
 

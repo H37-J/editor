@@ -3,7 +3,7 @@ import useAuth from '@/hooks/useAuth';
 import api from '@/utils/api';
 import {
   CreatePostProps,
-  UpdateContentProps,
+  UpdateContentProps, UpdateImageProps,
   UpdateTitleProps,
   UpsertPostProps,
 } from '@/server/api/routers/postRouter';
@@ -13,6 +13,7 @@ export type PostUtils = {
   upsertPost: (data: UpsertPostProps) => Promise<PrismaPost | undefined>;
   updateTitle: (data: UpdateTitleProps) => Promise<PrismaPost | undefined>;
   updateContent: (data: UpdateContentProps) => Promise<PrismaPost | undefined>;
+  updateImage: (data: UpdateImageProps) => Promise<PrismaPost | undefined>;
   deleteByUUid: (data: string) => Promise<PrismaPost | undefined>;
 }
 
@@ -51,6 +52,8 @@ export const usePost = (): PostUtils => {
     }
   })
 
+  const updateImageMutation = api.post.updateImage.useMutation({})
+
   const createPost = async (data: CreatePostProps): Promise<PrismaPost | undefined> => {
     if (status === 'authenticated') {
       return await createMutation.mutateAsync(data);
@@ -83,6 +86,14 @@ export const usePost = (): PostUtils => {
     }
   }
 
+  const updateImage = async (data: UpdateImageProps): Promise<PrismaPost | undefined> => {
+    if (status === 'authenticated') {
+      await updateImageMutation.mutateAsync(data);
+    } else {
+      return undefined;
+    }
+  }
+
   const deleteByUUid = async (data: string): Promise<PrismaPost | undefined> => {
     if (status === 'authenticated') {
       await deleteMutation.mutateAsync(data);
@@ -96,6 +107,7 @@ export const usePost = (): PostUtils => {
     upsertPost,
     updateTitle,
     updateContent,
+    updateImage,
     deleteByUUid
   }
 

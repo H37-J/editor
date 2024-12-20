@@ -8,7 +8,7 @@ const Document = () => {
   return (
     <Html lang="en">
       <Head />
-      <body className="antialiased bg-dark-1 ">
+      <body className="antialiased bg-dark-1">
         <Main />
         <NextScript />
       </body>

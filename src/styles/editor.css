@@ -8,6 +8,24 @@ body {
     display: none;
 }
 
+
+#scrollbar1::-webkit-scrollbar {
+    display: block;
+    width: 12px;
+}
+
+#scrollbar1::-webkit-scrollbar-track {
+    background-color: #141414;
+    border: 1px solid #141414;
+}
+
+#scrollbar1::-webkit-scrollbar-thumb {
+    border: 1px solid transparent;
+    background-clip: content-box;
+    background-color: #202020;
+}
+
+
 * {
 }
 
@@ -1907,7 +1925,6 @@ button.toolbar-item.active i {
     scrollbar-width: none; /* Firefox */
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
 .headings::-webkit-scrollbar {
     display: none;
 }
@@ -2054,7 +2071,22 @@ button.toolbar-item.active i {
     border-radius: 4px;
 }
 
+.image-container {
+    max-height: 150px;
+}
 
+.gallery-container {
+    max-height: 150px;
+}
+
+.code-container {
+    height: 500px;
+    overflow: auto;
+}
+
+.fit {
+    object-fit: cover;
+}
 
 i.plus {
     background-image: url(icons/plus.svg)

@@ -59,6 +59,8 @@ model User {
   post     Post[]
   accounts Account[]
   sessions Session[]
+  gallery  Gallery[]
+  code     Code[]
 
   @@index([email])
   @@index([createDate])
@@ -88,7 +90,34 @@ model Post {
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
+  gallery Gallery[]
+
   @@index([createDate])
   @@index([userId])
   @@map("post")
+}
+
+model Gallery {
+  id         Int      @id @default(autoincrement())
+  image      String
+  createDate DateTime @default(now())
+  updateDate DateTime @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  post     Post   @relation(fields: [postUUid], references: [uuid], onDelete: Cascade)
+  postUUid String
+}
+
+model Code {
+  id         Int      @id @default(autoincrement())
+  title      String
+  content    String
+  lang       String
+  createDate DateTime @default(now())
+  updateDate DateTime @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
 }
