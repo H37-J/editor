@@ -88,7 +88,4 @@
     "*.js": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write"
   },
-  "exports": {
-    ".": "./src/client.ts"
-  }
 }
