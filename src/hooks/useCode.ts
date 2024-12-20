@@ -1,5 +1,5 @@
 import { CreateCodeProps } from '@/server/api/routers/codeRouter';
-import type { Code as PrismaCode } from '@prisma/client'
+import type { Code as PrismaCode } from '../../node_modules/.prisma/client'
 import api from '@/utils/api';
 import useAuth from '@/hooks/useAuth';
 export type CodeUtils = {
