@@ -67,7 +67,7 @@ const ActionPlugin = ({
           className="bg-zinc-900 p-3 rounded-xl"
           onClick={() => {
             shareDoc(serializedDocumentFromEditorState(editor.getEditorState())).then(
-              () => showFlashMessage('주소가 복사 되었습니다.')
+              () => showFlashMessage('주소가 복사 되었습니다')
             )
           }}>
           <i className="icon format lg share"/>
