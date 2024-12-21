@@ -61,7 +61,7 @@ const ActionPlugin = ({
   }, [editor]);
 
   return (
-    <div className="fixed bottom-0 right-0 m-4 space-x-3">
+    <div className="fixed bottom-12 right-0 md:bottom-0 md:right-0 m-4 space-x-3">
         <button
           title="공유"
           className="bg-zinc-900 p-3 rounded-xl"

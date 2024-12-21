@@ -23,7 +23,7 @@ const Code = () => {
   return (
     <>
       {modal}
-      <div className="flex flex-1 flex-col py-2.5 z-0 min-h-screen overflow-auto">
+      <div className="flex flex-1 flex-col py-2.5 z-0 min-h-screen overflow-auto pb-12">
         <div className="flex justify-end ">
           <select
             onChange={(e) => setValue(e.target.value)}
@@ -41,7 +41,7 @@ const Code = () => {
             ))}
           </select>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 pb-8">
           {codes &&
             codes.map((code) => {
               return (
