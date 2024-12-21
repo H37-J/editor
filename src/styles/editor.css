@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100..900&display=swap';
+/*@import 'https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100..900&display=swap';*/
 
 body {
     -ms-overflow-style: none;
@@ -793,13 +793,13 @@ button.toolbar-item.active i {
 }
 
 .StickyNode__placeholder {
-    font-size: 26px;
+    font-size: 20px;
     color: #999;
     overflow: hidden;
     position: absolute;
     text-overflow: ellipsis;
     top: 30px;
-    left: 50px;
+    left: 30px;
     width: 220px;
     user-select: none;
     white-space: nowrap;

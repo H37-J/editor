@@ -28,7 +28,7 @@ const Code = () => {
           <select
             onChange={(e) => setValue(e.target.value)}
             id="select"
-            className="px-0 text-sm text-white bg-transparent border-0 outline-none mb-3 w-[150px]
+            className="px-0 text-sm text-white bg-transparent border-0 outline-none mb-3 w-[170px] text-right pe-2
                   dark:text-gray-400 dark:border-gray-300"
           >
             <option className="bg-[#141414] z-50" value={''}>
