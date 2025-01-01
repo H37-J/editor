@@ -15,12 +15,12 @@ const Gallery = () => {
   return (
     <>
       {modal}
-      <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-6 gap-4 pb-12">
         {images && images.map((image) => (
           <div className="image-container md:max-h-[300px] max-h-[350px]">
             <img
               onClick={() => openModal(image.image)}
-              className="w-full h-full rounded-lg cursor-pointer transition duration-300 hover:scale-103 hover:-translate-y-1"
+              className="w-full h-[350px] sm:h-[150px] rounded-lg cursor-pointer transition duration-300 hover:scale-103 hover:-translate-y-1"
               src={image.image}
               alt=""
             />
