@@ -46,7 +46,6 @@ export const ImageDialog = React.forwardRef((
       return '';
     };
     if (files !== null) {
-      console.log(files[0] as Blob)
       reader.readAsDataURL(files[0] as Blob);
     }
   };
