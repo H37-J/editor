@@ -1,13 +1,13 @@
-export const KEYWORD_SYSTEM = '다음 키워드를 주제로 글 작성 해줘';
+export const KEYWORD_SYSTEM = '다음 키워드를 주제로 글 작성 해줘. 결과는 항상 한국어로 말해';
 export const EMAIL_SYSTEM =
   '다음 내용을 이메일 형식 으로 재작성 해줘. 제목과 수신자 도 넣어줘. 결과는 항상 한국어로 말해';
-export const DESCRIPTION_SYSTEM = '이 주제 별로 나누 어서 설명 해줘';
+export const DESCRIPTION_SYSTEM = '이 주제 별로 나누 어서 설명 해줘. 결과는 항상 한국어로 말해';
 export const BULLET_SYSTEM =
-  '다음 내용을 요약 해서 글머리 기호 별로 • 사용 하여 나뉘 어줘.';
+  '다음 내용을 요약 해서 글머리 기호 별로 • 사용 하여 나뉘 어줘. 결과는 항상 한국어로 말해';
 export const TWEET_SYSTEM =
-  '다음 내용을 분석 요약 해서 트위터 처럼 내용 작성 해줘. 해쉬 태그도 달아줘';
-export const SUBJECT_SYSTEM = '다음 내용을 분석 하여 제목 지어줘';
-export const RESULT_SYSTEM = '다음 내용을 분석 하여 결론을 알려줘';
+  '다음 내용을 분석 요약 해서 트위터 처럼 내용 작성 해줘. 해쉬 태그도 달아줘. 결과는 항상 한국어로 말해';
+export const SUBJECT_SYSTEM = '다음 내용을 분석 하여 제목 지어줘. 결과는 항상 한국어로 말해';
+export const RESULT_SYSTEM = '다음 내용을 분석 하여 결론을 알려줘. 결과는 항상 한국어로 말해';
 
 export const LANGUAGE_LIST = [
   '한국어',
