@@ -13,7 +13,9 @@ Ai기능과 노트를 합친 커스텀 에디터 노트
 
 🚀  **프레임워크:** NextJs(TypeScript)
 
-🌈  **인증:** NextAuth(구글, 깃허브)
+🌈  **UI:** TailWind, ReactIcon
+
+🗄️  **인증:** NextAuth(구글, 깃허브)
 
 🔥  **AI 모델:** OpenAI
 
