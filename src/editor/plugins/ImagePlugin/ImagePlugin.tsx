@@ -52,11 +52,6 @@ export const ImageDialog = React.forwardRef((
   };
 
   const onClick = async (payload: InsertImagePayload) => {
-    const compressedData = pako.deflate(payload.src, { to: 'string' });
-    console.log(payload.src)
-    console.log(compressedData)
-    const decompressedData = pako.inflate(compressedData, { to: 'string' });
-    console.log(decompressedData)
     await galleryUtils.createGallery({
       image: payload.src,
       postUUid: String(router.query.slug!),
