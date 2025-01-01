@@ -13,7 +13,6 @@ import React, {  RefObject, useEffect } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useRouter } from 'next/router';
 import { useGallery } from '@/hooks/useGallery';
-import pako from 'pako/dist/pako.esm.mjs';
 
 export type InsertImagePayload = Readonly<ImagePayload>;
 
