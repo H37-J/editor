@@ -30,6 +30,11 @@ const SideNoteList = ({className}: {className?: string}) => {
 
   const delete_ = async (uuid: string) => {
     await postUtils.deleteByUUid(uuid);
+    const dom = document.querySelector(`#post-list`)!.lastChild!.lastChild as HTMLElement;
+    dom.click();
+    if (posts!.length === 1) {
+      location.href = '/note'
+    }
   };
 
   const note = async (uuid: string) => {
@@ -67,10 +72,10 @@ const SideNoteList = ({className}: {className?: string}) => {
         <div
           className={`border-t border-neutral-750 ${showTrash ? 'ml-7' : ''}`}
         ></div>
-        <span>
+        <span id="post-list">
           {posts?.map((post) => {
             return (
-              <div key={post.id} className="flex items-center space-x-3">
+              <div id={post.uuid} key={post.id} className="flex items-center space-x-3">
                 {showTrash && (
                   <CiTrash
                     onClick={() => delete_(post.uuid)}
@@ -78,6 +83,7 @@ const SideNoteList = ({className}: {className?: string}) => {
                   />
                 )}
                 <div
+                  id=""
                   onClick={() => note(post.uuid)}
                   className="flex flex-1 justify-between text-xs py-3 md:py-2.5 font-normal border-b border-neutral-750 hover:bg-zinc-800 cursor-pointer"
                 >
