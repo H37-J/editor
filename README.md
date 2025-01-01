@@ -7,6 +7,8 @@
 Ai기능과 노트를 합친 커스텀 에디터 노트
 
 [웹사이트](https://note-rosy-five.vercel.app/) 
+
+![이미지 없음](https://raw.githubusercontent.com/H37-J/note/master/docs/images/0.png)
 </div>
 
 ## 기능
