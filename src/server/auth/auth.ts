@@ -1,12 +1,10 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import type { NextAuthOptions } from "next-auth"
-import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
 import prisma from '@/server/prisma';
 import { NextApiRequest, type NextApiResponse } from 'next';
-import { getCookie } from 'cookies-next';
 
 export const authOptions = (req: NextApiRequest, res: NextApiResponse) : NextAuthOptions => {
   return {

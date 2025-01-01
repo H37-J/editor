@@ -1,8 +1,9 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useRouter } from 'next/router';
 import api from '@/utils/api';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useEditorStore } from '@/store/zustand/editorStore';
+import { $getSelection, BaseSelection } from 'lexical';
 
 const InitialStatePlugin = ({}: {}) => {
   const [editor] = useLexicalComposerContext();
@@ -11,6 +12,7 @@ const InitialStatePlugin = ({}: {}) => {
   const { data, isLoading } = api.post.findByUUId.useQuery(slug, {
     enabled: router.isReady,
   });
+
 
 
   useEffect(() => {

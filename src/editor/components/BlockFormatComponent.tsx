@@ -3,10 +3,9 @@ import { blockTypeToBlockName } from '@/editor/utils/constant';
 import { $createParagraphNode, $getSelection, $isRangeSelection, LexicalEditor } from 'lexical';
 import { $createHeadingNode, $createQuoteNode, HeadingTagType } from '@lexical/rich-text';
 // @ts-ignore
-import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list';
+import { INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list';
 // @ts-ignore
 import { $setBlocksType } from '@lexical/selection';
-import { formatCode } from '@/editor/plugins/CodePlugin/CodeComponent';
 import clsx from 'clsx';
 import DropDown, { DropDownItem } from '@/pages/components/dropdown/DropDown';
 

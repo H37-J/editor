@@ -1,14 +1,14 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { useEffect, useRef } from 'react';
-import api from '@/utils/api';
-import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
 
 export default function OnChangePlugin({ onChange }) {
   const [editor] = useLexicalComposerContext();
 
+
   useEffect(() => {
     return editor.registerUpdateListener(({ prevEditorState, editorState }) => {
       if (!prevEditorState || !editorState) return;
+
       const prevMap = prevEditorState._nodeMap;
       const currentMap = editorState._nodeMap;
       let check = false;
@@ -18,7 +18,6 @@ export default function OnChangePlugin({ onChange }) {
           check = true;
         }
       });
-
 
 
       if (check) {

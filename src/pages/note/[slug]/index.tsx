@@ -31,10 +31,8 @@ import TableHoverActionsPlugin from '@/editor/plugins/TablePlugin/TableHoverActi
 import TableCellResizerPlugin from '@/editor/plugins/TablePlugin/TableCellResizer';
 import { useRouter } from 'next/router';
 import api from '@/utils/api';
-import { CiTrash } from 'react-icons/ci';
 import { usePost } from '@/hooks/usePost';
 import useAuth from '@/hooks/useAuth';
-import { date } from '@/utils/date';
 import InitialStatePlugin from '@/editor/plugins/InitialStatePlugin';
 import SideNoteList from '@/pages/components/ui/note/SideNoteList';
 import LinkPlugin from '@/editor/plugins/LinkPlugin';
@@ -54,10 +52,10 @@ export const editorConfig = {
 const Editor = () => {
   const { session } = useAuth();
   const [title, setTitle] = useState('');
+  const [focus, setFocus] = useState(false);
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
   const editorRef = useRef<HTMLDivElement | null>(null);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
-  const [showNote, setShowNote] = useState(false);
   const [viewportSize, setViewportSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -81,7 +79,7 @@ const Editor = () => {
   };
 
   const onChange = async (editorState: { toJSON: () => any }) => {
-    if (isLoading) {
+    if (isLoading || !focus) {
       return false;
     }
     const state = JSON.stringify(editorState.toJSON());
@@ -138,7 +136,8 @@ const Editor = () => {
               <div className="flex flex-col flex-1">
                 <textarea
                   ref={titleRef}
-                  autoFocus={true}
+                  autoFocus={false}
+                  onFocus={() => setFocus(true)}
                   placeholder="제목"
                   value={title}
                   className="p-1 pb-0 px-2 bg-[#141414] py-3 text-3xl outline-0 resize-none outline-none"
@@ -151,6 +150,7 @@ const Editor = () => {
                       <div className="editor" ref={onRef}>
                         <ContentEditable
                           ref={editorRef}
+                          onClick={() => setFocus(true)}
                           className="editor-content pb-12"
                           aria-placeholder={'내용을 입력해 주세요'}
                           placeholder={

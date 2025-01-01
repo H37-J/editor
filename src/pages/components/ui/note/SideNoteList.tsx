@@ -70,7 +70,7 @@ const SideNoteList = ({className}: {className?: string}) => {
         <span>
           {posts?.map((post) => {
             return (
-              <div className="flex items-center space-x-3">
+              <div key={post.id} className="flex items-center space-x-3">
                 {showTrash && (
                   <CiTrash
                     onClick={() => delete_(post.uuid)}

@@ -8,7 +8,7 @@ import { IoLogOutOutline } from 'react-icons/io5';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useEditorStore } from '@/store/zustand/editorStore';
 const NavBar = ({editor}: {editor?: boolean}) => {
-  const { signIn, signOut, session } = useAuth();
+  const {  signOut, session } = useAuth();
 
   return (
     <>

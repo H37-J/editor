@@ -9,12 +9,11 @@ import {
   LexicalCommand,
   LexicalEditor,
 } from 'lexical';
-import React, { forwardRef, RefObject, useEffect } from 'react';
+import React, {  RefObject, useEffect } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import api from '@/utils/api';
-import { usePost } from '@/hooks/usePost';
 import { useRouter } from 'next/router';
 import { useGallery } from '@/hooks/useGallery';
+import pako from 'pako/dist/pako.esm.mjs';
 
 export type InsertImagePayload = Readonly<ImagePayload>;
 
@@ -47,11 +46,17 @@ export const ImageDialog = React.forwardRef((
       return '';
     };
     if (files !== null) {
+      console.log(files[0] as Blob)
       reader.readAsDataURL(files[0] as Blob);
     }
   };
 
   const onClick = async (payload: InsertImagePayload) => {
+    const compressedData = pako.deflate(payload.src, { to: 'string' });
+    console.log(payload.src)
+    console.log(compressedData)
+    const decompressedData = pako.inflate(compressedData, { to: 'string' });
+    console.log(decompressedData)
     await galleryUtils.createGallery({
       image: payload.src,
       postUUid: String(router.query.slug!),

@@ -9,7 +9,6 @@ export type GalleryUtils = {
 
 export const useGallery = (): GalleryUtils => {
   const { status } = useAuth();
-  const ctx = api.useUtils();
 
   const createMutation = api.gallery.create.useMutation({})
 

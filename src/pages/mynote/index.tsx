@@ -4,8 +4,6 @@ import Code from '@/pages/components/code/Code';
 import api from '@/utils/api';
 import { formatDate } from '@/utils/date';
 import { useRouter } from 'next/router';
-import { CODE_LANGUAGE_LIST } from '@/editor/plugins/CodePlugin/CodeComponent';
-import { useMyStore } from '@/store/zustand/myStore';
 
 
 const Page = () => {

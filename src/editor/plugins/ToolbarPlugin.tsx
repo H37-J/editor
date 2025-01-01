@@ -23,7 +23,6 @@ import {
   FORMAT_TEXT_COMMAND,
   KEY_MODIFIER_COMMAND,
   NodeKey,
-  RangeSelection,
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
@@ -32,7 +31,6 @@ import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import { ImageDialog } from '@/editor/plugins/ImagePlugin/ImagePlugin';
 import BlockFormatComponent from '@/editor/components/BlockFormatComponent';
 import { blockTypeToBlockName, FONT_FAMILY_MAP } from '@/editor/utils/constant';
-import { RefClick } from '@/editor/utils/dom';
 import InsertComponent from '@/editor/components/InsertComponent';
 import getSelectionNode from '@/editor/utils/node';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
@@ -50,10 +48,6 @@ import DropdownColorPicker from '@/editor/components/DropdownColorPicker';
 import ColorPickerImage from '@/styles/images/color.png';
 import AiComponent from '@/editor/components/AiComponent';
 import { useEditorStore } from '@/store/zustand/editorStore';
-import api from '@/utils/api';
-import { useRouter } from 'next/router';
-
-const LowPriority = 1;
 
 const Divider = () => {
   return <div className="divider" />;
