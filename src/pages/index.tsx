@@ -13,9 +13,6 @@ import { GrNotes } from 'react-icons/gr';
 import { DefaultEditorContent } from '@/utils/constant';
 import { usePost } from '@/hooks/usePost';
 import { v4 } from 'uuid';
-import SnippetModal from '@/pages/components/modal/SnippetModal';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { useModal } from '@/pages/components/modal/Modal';
 import GalleryModal from '@/pages/components/modal/GalleryModal';
 
@@ -23,9 +20,6 @@ const Page = () => {
   const { session } = useAuth();
   const { data: posts } = api.post.getTakeAll.useQuery(10, {});
   const { data: recentPost } = api.post.getTakeAll.useQuery(6, {});
-  let { data: codes } = api.code.getAll.useQuery('');
-  const { data: images} = api.gallery.getTakeAll.useQuery(24, {})
-  const [showId, setShowId] = useState(0);
   const [modal, showModal] = useModal();
   const router = useRouter();
   const postUtils = usePost();
@@ -164,4 +158,3 @@ const Page = () => {
 
 export default Page;
 
-// bg-gradient-to-r from-[#212027] via-[2a2929] to-[2b292d]

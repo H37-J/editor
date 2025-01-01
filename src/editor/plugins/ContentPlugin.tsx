@@ -5,9 +5,17 @@ import { useEffect } from 'react';
 
 const ContentPlugin = ({content} : {content: string}) => {
   const [editor] = useLexicalComposerContext();
-
+  let check= true;
   const state = editor.parseEditorState(content);
-  editor.setEditorState(state);
+  state._nodeMap.forEach((node, key) => {
+    if (node.__type === 'sticky') {
+      check = false;
+    }
+  })
+
+  if (check) {
+    editor.setEditorState(state);
+  }
 
 
   return null;
