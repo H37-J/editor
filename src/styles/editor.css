@@ -1002,20 +1002,20 @@ button.toolbar-item.active i {
     background-position: center;
 }
 
-.PlaygroundEditorTheme__ltr {
+.editor__ltr {
     text-align: left;
 }
 
-.PlaygroundEditorTheme__rtl {
+.editor__rtl {
     text-align: right;
 }
 
-.PlaygroundEditorTheme__paragraph {
+.editor__paragraph {
     margin: 0;
     position: relative;
 }
 
-.PlaygroundEditorTheme__quote {
+.editor__quote {
     margin: 0;
     margin-left: 20px;
     margin-bottom: 10px;
@@ -1027,14 +1027,14 @@ button.toolbar-item.active i {
     padding-left: 16px;
 }
 
-.PlaygroundEditorTheme__h1 {
+.editor__h1 {
     font-size: 24px;
     color: rgb(5, 5, 5);
     font-weight: 400;
     margin: 0;
 }
 
-.PlaygroundEditorTheme__h2 {
+.editor__h2 {
     font-size: 15px;
     color: rgb(101, 103, 107);
     font-weight: 700;
@@ -1042,69 +1042,69 @@ button.toolbar-item.active i {
     text-transform: uppercase;
 }
 
-.PlaygroundEditorTheme__h3 {
+.editor__h3 {
     font-size: 12px;
     margin: 0;
     text-transform: uppercase;
 }
 
-.PlaygroundEditorTheme__indent {
+.editor__indent {
     --lexical-indent-base-value: 40px;
 }
 
-.PlaygroundEditorTheme__textBold {
+.editor__textBold {
     font-weight: bold;
 }
 
-.PlaygroundEditorTheme__textItalic {
+.editor__textItalic {
     font-style: italic;
 }
 
-.PlaygroundEditorTheme__textUnderline {
+.editor__textUnderline {
     text-decoration: underline;
 }
 
-.PlaygroundEditorTheme__textStrikethrough {
+.editor__textStrikethrough {
     text-decoration: line-through;
 }
 
-.PlaygroundEditorTheme__textUnderlineStrikethrough {
+.editor__textUnderlineStrikethrough {
     text-decoration: underline line-through;
 }
 
-.PlaygroundEditorTheme__textSubscript {
+.editor__textSubscript {
     font-size: 0.8em;
     vertical-align: sub !important;
 }
 
-.PlaygroundEditorTheme__textSuperscript {
+.editor__textSuperscript {
     font-size: 0.8em;
     vertical-align: super;
 }
 
-.PlaygroundEditorTheme__textCode {
+.editor__textCode {
     background-color: rgb(240, 242, 245);
     padding: 1px 0.25rem;
     font-family: Menlo, Consolas, Monaco, monospace;
     font-size: 94%;
 }
 
-.PlaygroundEditorTheme__hashtag {
+.editor__hashtag {
     background-color: rgba(88, 144, 255, 0.15);
     border-bottom: 1px solid rgba(88, 144, 255, 0.3);
 }
 
-.PlaygroundEditorTheme__link {
+.editor__link {
     color: rgb(33, 111, 219);
     text-decoration: none;
 }
 
-.PlaygroundEditorTheme__link:hover {
+.editor__link:hover {
     text-decoration: underline;
     cursor: pointer;
 }
 
-.PlaygroundEditorTheme__code {
+.editor__code {
     background-color: rgb(240, 242, 245);
     font-family: Menlo, Consolas, Monaco, monospace;
     display: block;
@@ -1119,7 +1119,7 @@ button.toolbar-item.active i {
     tab-size: 2;
 }
 
-.PlaygroundEditorTheme__code:before {
+.editor__code:before {
     content: attr(data-gutter);
     position: absolute;
     background-color: #eee;
@@ -1133,7 +1133,7 @@ button.toolbar-item.active i {
     min-width: 25px;
 }
 
-.PlaygroundEditorTheme__table {
+.editor__table {
     border-collapse: collapse;
     border-spacing: 0;
     overflow-y: scroll;
@@ -1143,19 +1143,19 @@ button.toolbar-item.active i {
     margin: 0 25px 30px 0;
 }
 
-.PlaygroundEditorTheme__tableRowStriping tr:nth-child(even) {
+.editor__tableRowStriping tr:nth-child(even) {
     background-color: #f2f5fb;
 }
 
-.PlaygroundEditorTheme__tableSelection *::selection {
+.editor__tableSelection *::selection {
     background-color: transparent;
 }
 
-.PlaygroundEditorTheme__tableSelected {
+.editor__tableSelected {
     outline: 2px solid rgb(60, 132, 244);
 }
 
-.PlaygroundEditorTheme__tableCell {
+.editor__tableCell {
     border: 1px solid #bbb;
     width: 75px;
     vertical-align: top;
@@ -1165,7 +1165,7 @@ button.toolbar-item.active i {
     outline: none;
 }
 
-.PlaygroundEditorTheme__tableCellSortedIndicator {
+.editor__tableCellSortedIndicator {
     display: block;
     opacity: 0.5;
     position: absolute;
@@ -1176,7 +1176,7 @@ button.toolbar-item.active i {
     background-color: #999;
 }
 
-.PlaygroundEditorTheme__tableCellResizer {
+.editor__tableCellResizer {
     position: absolute;
     right: -4px;
     height: 100%;
@@ -1186,16 +1186,16 @@ button.toolbar-item.active i {
     top: 0;
 }
 
-.PlaygroundEditorTheme__tableCellHeader {
+.editor__tableCellHeader {
     background-color: #171717;
     text-align: start;
 }
 
-.PlaygroundEditorTheme__tableCellSelected {
+.editor__tableCellSelected {
     background-color: #c9dbf0;
 }
 
-.PlaygroundEditorTheme__tableCellPrimarySelected {
+.editor__tableCellPrimarySelected {
     border: 2px solid rgb(60, 132, 244);
     display: block;
     height: calc(100% - 2px);
@@ -1206,12 +1206,12 @@ button.toolbar-item.active i {
     z-index: 2;
 }
 
-.PlaygroundEditorTheme__tableCellEditing {
+.editor__tableCellEditing {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
     border-radius: 3px;
 }
 
-.PlaygroundEditorTheme__tableAddColumns {
+.editor__tableAddColumns {
     position: absolute;
     background-color: #e6e6e6;
     height: 100%;
@@ -1220,7 +1220,7 @@ button.toolbar-item.active i {
     cursor: pointer;
 }
 
-.PlaygroundEditorTheme__tableAddColumns:after {
+.editor__tableAddColumns:after {
     background-image: url(icons/icon-plus.svg);
     background-size: contain;
     background-position: center;
@@ -1235,12 +1235,12 @@ button.toolbar-item.active i {
     opacity: 0.4;
 }
 
-.PlaygroundEditorTheme__tableAddColumns:hover,
-.PlaygroundEditorTheme__tableAddRows:hover {
+.editor__tableAddColumns:hover,
+.editor__tableAddRows:hover {
     background-color: #7b7b7b;
 }
 
-.PlaygroundEditorTheme__tableAddRows {
+.editor__tableAddRows {
     position: absolute;
     width: calc(100% - 15px);
     background-color: #e6e6e6;
@@ -1249,7 +1249,7 @@ button.toolbar-item.active i {
     cursor: pointer;
 }
 
-.PlaygroundEditorTheme__tableAddRows:after {
+.editor__tableAddRows:after {
     background-image: url(icons/icon-plus.svg);
     background-size: contain;
     background-position: center;
@@ -1273,7 +1273,7 @@ button.toolbar-item.active i {
     }
 }
 
-.PlaygroundEditorTheme__tableCellResizeRuler {
+.editor__tableCellResizeRuler {
     display: block;
     position: absolute;
     width: 1px;
@@ -1282,15 +1282,15 @@ button.toolbar-item.active i {
     top: 0;
 }
 
-.PlaygroundEditorTheme__embedBlock {
+.editor__embedBlock {
     user-select: none;
 }
 
-.PlaygroundEditorTheme__embedBlockFocus {
+.editor__embedBlockFocus {
     outline: 2px solid rgb(60, 132, 244);
 }
 
-.PlaygroundEditorTheme__tableCellActionButtonContainer {
+.editor__tableCellActionButtonContainer {
     display: block;
     right: 5px;
     top: 6px;
@@ -1300,7 +1300,7 @@ button.toolbar-item.active i {
     height: 20px;
 }
 
-.PlaygroundEditorTheme__tableCellActionButton {
+.editor__tableCellActionButton {
     background-color: #eee;
     display: block;
     border: 0;
@@ -1311,104 +1311,104 @@ button.toolbar-item.active i {
     cursor: pointer;
 }
 
-.PlaygroundEditorTheme__ol1 {
+.editor__ol1 {
     counter-reset: my-counter;
 }
 
-.PlaygroundEditorTheme__ol1 li {
+.editor__ol1 li {
     counter-increment: my-counter;
     list-style: none;
 }
 
-.PlaygroundEditorTheme__ol1 li::before {
+.editor__ol1 li::before {
     content: counter(my-counter) ". ";
     color: #b5b5b5;
     margin-right: 1rem;
 }
 
-.PlaygroundEditorTheme__ul li.PlaygroundEditorTheme__listItem:not([role="checkbox"]):before {
+.editor__ul li.editor__listItem:not([role="checkbox"]):before {
     content: '• ';
     color: #ddd;
     font-size: 1.5em;
     margin-right: 0.5em;
 }
 
-.PlaygroundEditorTheme__tableCellActionButton:hover {
+.editor__tableCellActionButton:hover {
     background-color: #ddd;
 }
 
-.PlaygroundEditorTheme__mark {
+.editor__mark {
     background: rgba(255, 212, 0, 0.14);
     border-bottom: 2px solid rgba(255, 212, 0, 0.3);
     padding-bottom: 2px;
 }
 
-.PlaygroundEditorTheme__markOverlap {
+.editor__markOverlap {
     background: rgba(255, 212, 0, 0.3);
     border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
 
-.PlaygroundEditorTheme__mark.selected {
+.editor__mark.selected {
     background: rgba(255, 212, 0, 0.5);
     border-bottom: 2px solid rgba(255, 212, 0, 1);
 }
 
-.PlaygroundEditorTheme__markOverlap.selected {
+.editor__markOverlap.selected {
     background: rgba(255, 212, 0, 0.7);
     border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
 
-.PlaygroundEditorTheme__characterLimit {
+.editor__characterLimit {
     display: inline;
     background-color: #ffbbbb !important;
 }
 
-.PlaygroundEditorTheme__ol1 {
+.editor__ol1 {
     padding: 0;
     margin: 0;
     list-style-position: outside;
 }
 
-.PlaygroundEditorTheme__ol2 {
+.editor__ol2 {
     padding: 0;
     margin: 0;
     list-style-type: upper-alpha;
     list-style-position: outside;
 }
 
-.PlaygroundEditorTheme__ol3 {
+.editor__ol3 {
     padding: 0;
     margin: 0;
     list-style-type: lower-alpha;
     list-style-position: outside;
 }
 
-.PlaygroundEditorTheme__ol4 {
+.editor__ol4 {
     padding: 0;
     margin: 0;
     list-style-type: upper-roman;
     list-style-position: outside;
 }
 
-.PlaygroundEditorTheme__ol5 {
+.editor__ol5 {
     padding: 0;
     margin: 0;
     list-style-type: lower-roman;
     list-style-position: outside;
 }
 
-.PlaygroundEditorTheme__ul {
+.editor__ul {
     padding: 0;
     margin: 0;
     list-style-position: outside;
 }
 
-.PlaygroundEditorTheme__listItem {
+.editor__listItem {
     margin: 0 32px;
 }
 
-.PlaygroundEditorTheme__listItemChecked,
-.PlaygroundEditorTheme__listItemUnchecked {
+.editor__listItemChecked,
+.editor__listItemUnchecked {
     position: relative;
     margin-left: 8px;
     margin-right: 8px;
@@ -1418,12 +1418,12 @@ button.toolbar-item.active i {
     outline: none;
 }
 
-.PlaygroundEditorTheme__listItemChecked {
+.editor__listItemChecked {
     text-decoration: line-through;
 }
 
-.PlaygroundEditorTheme__listItemUnchecked:before,
-.PlaygroundEditorTheme__listItemChecked:before {
+.editor__listItemUnchecked:before,
+.editor__listItemChecked:before {
     content: '';
     width: 16px;
     height: 16px;
@@ -1435,29 +1435,29 @@ button.toolbar-item.active i {
     position: absolute;
 }
 
-.PlaygroundEditorTheme__listItemUnchecked[dir='rtl']:before,
-.PlaygroundEditorTheme__listItemChecked[dir='rtl']:before {
+.editor__listItemUnchecked[dir='rtl']:before,
+.editor__listItemChecked[dir='rtl']:before {
     left: auto;
     right: 0;
 }
 
-.PlaygroundEditorTheme__listItemUnchecked:focus:before,
-.PlaygroundEditorTheme__listItemChecked:focus:before {
+.editor__listItemUnchecked:focus:before,
+.editor__listItemChecked:focus:before {
     border-radius: 2px;
 }
 
-.PlaygroundEditorTheme__listItemUnchecked:before {
+.editor__listItemUnchecked:before {
     border: 1px solid #999;
     border-radius: 2px;
 }
-.PlaygroundEditorTheme__listItemChecked:before {
+.editor__listItemChecked:before {
     border: 1px solid rgb(61, 135, 245);
     border-radius: 2px;
     background-color: #3d87f5;
     background-repeat: no-repeat;
 }
 
-.PlaygroundEditorTheme__listItemChecked:after {
+.editor__listItemChecked:after {
     content: '';
     cursor: pointer;
     border-color: #fff;
@@ -1473,84 +1473,84 @@ button.toolbar-item.active i {
     border-width: 0 2px 2px 0;
 }
 
-.PlaygroundEditorTheme__nestedListItem {
+.editor__nestedListItem {
     list-style-type: none;
 }
 
-.PlaygroundEditorTheme__nestedListItem:before,
-.PlaygroundEditorTheme__nestedListItem:after {
+.editor__nestedListItem:before,
+.editor__nestedListItem:after {
     display: none;
 }
 
-.PlaygroundEditorTheme__tokenComment {
+.editor__tokenComment {
     color: slategray;
 }
 
-.PlaygroundEditorTheme__tokenPunctuation {
+.editor__tokenPunctuation {
     color: #999;
 }
 
-.PlaygroundEditorTheme__tokenProperty {
+.editor__tokenProperty {
     color: #905;
 }
 
-.PlaygroundEditorTheme__tokenSelector {
+.editor__tokenSelector {
     color: #690;
 }
 
-.PlaygroundEditorTheme__tokenOperator {
+.editor__tokenOperator {
     color: #9a6e3a;
 }
 
-.PlaygroundEditorTheme__tokenAttr {
+.editor__tokenAttr {
     color: #07a;
 }
 
-.PlaygroundEditorTheme__tokenVariable {
+.editor__tokenVariable {
     color: #e90;
 }
 
-.PlaygroundEditorTheme__tokenFunction {
+.editor__tokenFunction {
     color: #dd4a68;
 }
 
-.PlaygroundEditorTheme__mark {
+.editor__mark {
     background: rgba(255, 212, 0, 0.14);
     border-bottom: 2px solid rgba(255, 212, 0, 0.3);
     padding-bottom: 2px;
 }
 
-.PlaygroundEditorTheme__embedBlock {
+.editor__embedBlock {
     user-select: none;
 }
 
-.PlaygroundEditorTheme__embedBlockFocus {
+.editor__embedBlockFocus {
     outline: 2px solid rgb(60, 132, 244);
 }
 
-.PlaygroundEditorTheme__layoutContainer {
+.editor__layoutContainer {
     display: grid;
     gap: 10px;
     margin: 10px 0;
 }
 
-.PlaygroundEditorTheme__layoutItem {
+.editor__layoutItem {
     border: 1px dashed #ddd;
     padding: 8px 16px;
 }
 
-.PlaygroundEditorTheme__autocomplete {
+.editor__autocomplete {
     color: #ccc;
 }
 
-.PlaygroundEditorTheme__hr {
+.editor__hr {
     padding: 2px 2px;
     border: none;
     margin: 1em 0;
     cursor: pointer;
 }
 
-.PlaygroundEditorTheme__hr:after {
+.editor__hr:after {
     content: '';
     display: block;
     height: 2px;
@@ -1558,7 +1558,7 @@ button.toolbar-item.active i {
     line-height: 2px;
 }
 
-.PlaygroundEditorTheme__hr.selected {
+.editor__hr.selected {
     outline: 2px solid rgb(60, 132, 244);
     user-select: none;
 }

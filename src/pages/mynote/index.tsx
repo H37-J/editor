@@ -20,7 +20,7 @@ const Page = () => {
     },
     {
       id: 3,
-      title: '이미지',
+      title: '갤러리',
       selected: false,
     },
   ];
