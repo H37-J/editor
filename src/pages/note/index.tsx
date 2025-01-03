@@ -6,6 +6,7 @@ import { usePost } from '@/hooks/usePost';
 import api from '@/utils/api';
 import SideNoteList from '@/pages/components/ui/note/SideNoteList';
 import { DefaultEditorContent } from '@/utils/constant';
+import { useEditorStore } from '@/store/zustand/editorStore';
 
 const Page = () => {
   const router = useRouter();
@@ -14,6 +15,7 @@ const Page = () => {
   const { data: posts, isLoading } = api.post.getAll.useQuery(undefined, {});
 
   const postCreate = async () => {
+    useEditorStore.getState().setShowNote(true);
     await postUtils.upsertPost({
       uuid: uuid,
       content: DefaultEditorContent,

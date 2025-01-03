@@ -20,6 +20,7 @@ const SideNoteList = ({className}: {className?: string}) => {
   });
 
   const postCreate = async () => {
+    useEditorStore.getState().setShowNote(true);
     await postUtils.createPost({
       uuid: uuid,
       content: DefaultEditorContent,
@@ -30,11 +31,7 @@ const SideNoteList = ({className}: {className?: string}) => {
 
   const delete_ = async (uuid: string) => {
     await postUtils.deleteByUUid(uuid);
-    const dom = document.querySelector(`#post-list`)!.lastChild!.lastChild as HTMLElement;
-    dom.click();
-    if (posts!.length === 1) {
-      location.href = '/note'
-    }
+    await router.push('/note');
   };
 
   const note = async (uuid: string) => {
