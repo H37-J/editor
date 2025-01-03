@@ -89,13 +89,14 @@ const Editor = () => {
     });
   };
 
-  const save = async (e) => {
-    const title = e.target.value;
-    setTitle(title);
-    await postUtils.updateTitle({
-      uuid: slug,
-      title: title === '' ? '제목 없음' : title,
-    });
+
+
+  const save = async () => {
+
+      await postUtils.updateTitle({
+        uuid: slug,
+        title: title === '' ? '제목 없음' : title,
+      });
   };
 
   useEffect(() => {
@@ -142,7 +143,8 @@ const Editor = () => {
                   value={title}
                   className="p-1 pb-0 px-2 bg-[#141414] py-3 text-3xl outline-0 resize-none outline-none"
                   rows={1}
-                  onChange={(e) => save(e)}
+                  onChange={(e) => setTitle(e.target.value)}
+                  onKeyUp={save}
                 />
                 <RichTextPlugin
                   contentEditable={
