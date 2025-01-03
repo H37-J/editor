@@ -78,11 +78,11 @@ const Editor = () => {
     }
   };
 
-  const onChange = async (editorState: { toJSON: () => any }) => {
+  const onChange = async () => {
     if (isLoading || !focus) {
       return false;
     }
-    const state = JSON.stringify(editorState.toJSON());
+    const state = JSON.stringify(useEditorStore.getState().state!.toJSON());
     await postUtils.updateContent({
       uuid: slug,
       content: state,
@@ -155,6 +155,7 @@ const Editor = () => {
                           onClick={() => setFocus(true)}
                           className="editor-content pb-12"
                           aria-placeholder={'내용을 입력해 주세요'}
+                          onKeyUp={onChange}
                           placeholder={
                             <div className="editor-placeholder">
                               {'내용을 입력해 주세요'}

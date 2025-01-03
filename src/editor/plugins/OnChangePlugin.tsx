@@ -1,9 +1,9 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useEffect, useRef, useState } from 'react';
+import { useEditorStore } from '@/store/zustand/editorStore';
 
 export default function OnChangePlugin({ onChange }) {
   const [editor] = useLexicalComposerContext();
-
 
   useEffect(() => {
     return editor.registerUpdateListener(({ prevEditorState, editorState }) => {
@@ -21,7 +21,7 @@ export default function OnChangePlugin({ onChange }) {
 
 
       if (check) {
-        onChange(editorState);
+        useEditorStore.getState().setEditorState(editorState)
       }
     });
   }, [editor, onChange]);
